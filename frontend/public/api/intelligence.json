@@ -1,0 +1,229 @@
+{
+  "insights": [
+    {
+      "id": "6ddf74a9-b2c0-5ebd-916e-6ae075070406",
+      "title": "Monthly Production Efficiency",
+      "module": "fabric",
+      "report_type": "kpi_dashboard",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of monthly production efficiency completed.",
+        "key_metrics": {
+          "primary": 86.9,
+          "secondary": 65.8,
+          "trend": "up"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-04-29T10:30:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "ae598bd9-f21a-5dbb-ab41-7a07748d7976",
+      "title": "Sales Pipeline Forecast Q3 2025",
+      "module": "sales",
+      "report_type": "forecast",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of sales pipeline forecast q3 2025 completed.",
+        "key_metrics": {
+          "primary": 87.4,
+          "secondary": 65.0,
+          "trend": "down"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-04-30T20:30:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "ac1e0431-6f65-5f8a-88ae-902ef15f753c",
+      "title": "Material Cost Trend Analysis",
+      "module": "frameworks",
+      "report_type": "trend",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of material cost trend analysis completed.",
+        "key_metrics": {
+          "primary": 90.7,
+          "secondary": 74.4,
+          "trend": "down"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-04-12T12:00:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "a6974d2f-5653-5a66-ab46-770accee596f",
+      "title": "Smart Home Energy Optimization",
+      "module": "intelligence",
+      "report_type": "analysis",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of smart home energy optimization completed.",
+        "key_metrics": {
+          "primary": 81.2,
+          "secondary": 75.6,
+          "trend": "stable"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-03-14T07:00:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "4a9af461-88f1-5116-87d6-e14b2f1632cf",
+      "title": "Deployment Schedule Risk Assessment",
+      "module": "deploy",
+      "report_type": "risk",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of deployment schedule risk assessment completed.",
+        "key_metrics": {
+          "primary": 66.5,
+          "secondary": 56.9,
+          "trend": "down"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-10-19T20:30:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "b04c0650-0551-5802-8da8-fee582d0a002",
+      "title": "Partner Capacity Utilization Report",
+      "module": "partners",
+      "report_type": "utilization",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of partner capacity utilization report completed.",
+        "key_metrics": {
+          "primary": 77.1,
+          "secondary": 65.8,
+          "trend": "stable"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-12-25T12:30:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "55111ca1-d36e-5a16-943a-fa4bece121c3",
+      "title": "Quality Defect Rate Trend",
+      "module": "fabric",
+      "report_type": "trend",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of quality defect rate trend completed.",
+        "key_metrics": {
+          "primary": 79.5,
+          "secondary": 67.2,
+          "trend": "up"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-11-03T06:45:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "05340ed3-9d75-50c2-a4cd-3ab0c56462d1",
+      "title": "Carbon Footprint per Housing Unit",
+      "module": "intelligence",
+      "report_type": "sustainability",
+      "parameters": {
+        "period": "2025-Q3",
+        "granularity": "monthly",
+        "filters": {}
+      },
+      "results": {
+        "summary": "Analysis of carbon footprint per housing unit completed.",
+        "key_metrics": {
+          "primary": 88.6,
+          "secondary": 73.2,
+          "trend": "up"
+        },
+        "recommendations": [
+          "Continue monitoring key indicators.",
+          "Investigate outlier data points."
+        ]
+      },
+      "generated_at": "2025-02-16T09:00:00+00:00",
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    }
+  ],
+  "total_insights": 8
+}

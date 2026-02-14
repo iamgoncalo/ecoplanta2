@@ -1,5 +1,8 @@
-const BASE_URL =
+const API_BASE_URL =
   import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+
+// Static JSON base path — uses Vite's base URL for correct asset resolution
+const STATIC_BASE = import.meta.env.BASE_URL + "api";
 
 export class ApiError extends Error {
   status: number;
@@ -10,22 +13,72 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const url = `${BASE_URL}${path}`;
-  const res = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-    ...options,
-  });
+// Map API paths to static JSON file names for fallback
+const STATIC_FILE_MAP: Record<string, string> = {
+  "/health": "health.json",
+  "/api/fabric": "fabric.json",
+  "/api/fabric/scene": "fabric-scene.json",
+  "/api/frameworks": "frameworks.json",
+  "/api/sales": "sales.json",
+  "/api/intelligence": "intelligence.json",
+  "/api/deploy": "deploy.json",
+  "/api/partners": "partners.json",
+};
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "Unknown error");
-    throw new ApiError(res.status, body);
+let _backendOnline: boolean | null = null;
+
+export function isBackendOnline(): boolean | null {
+  return _backendOnline;
+}
+
+async function tryStaticFallback<T>(path: string): Promise<T | null> {
+  const staticFile = STATIC_FILE_MAP[path];
+  if (!staticFile) return null;
+  try {
+    const res = await fetch(`${STATIC_BASE}/${staticFile}`);
+    if (res.ok) return (await res.json()) as T;
+  } catch {
+    // Static file also not available
   }
+  return null;
+}
 
-  return res.json() as Promise<T>;
+async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  // For mutating requests (POST/PATCH/PUT/DELETE), never use static fallback
+  const isMutating = options?.method && options.method !== "GET";
+
+  try {
+    const url = `${API_BASE_URL}${path}`;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    const res = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+      signal: controller.signal,
+      ...options,
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) {
+      throw new ApiError(res.status, await res.text().catch(() => "Unknown error"));
+    }
+
+    _backendOnline = true;
+    return (await res.json()) as T;
+  } catch (err) {
+    _backendOnline = false;
+
+    // For GET requests, try static fallback
+    if (!isMutating) {
+      const fallback = await tryStaticFallback<T>(path);
+      if (fallback !== null) return fallback;
+    }
+
+    throw err;
+  }
 }
 
 /* ---- Health ---- */

@@ -1,0 +1,63 @@
+{
+  "production_lines": [
+    {
+      "id": "2b75a7b3-27ca-5fc3-8ed0-e493b7d291a9",
+      "name": "Line A - CLT Assembly",
+      "location": "Figueira da Foz, Portugal",
+      "capacity_units_per_day": 3,
+      "status": "idle",
+      "current_workorder_id": null,
+      "active_work_orders": 0,
+      "total_work_orders": 2,
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "709a0195-9781-535c-b66b-eddb28d49994",
+      "name": "Line B - Steel Framing",
+      "location": "Figueira da Foz, Portugal",
+      "capacity_units_per_day": 2,
+      "status": "idle",
+      "current_workorder_id": null,
+      "active_work_orders": 2,
+      "total_work_orders": 2,
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "46bd7310-8e67-54a0-9814-6b3f994be23c",
+      "name": "Line C - Module Integration",
+      "location": "Figueira da Foz, Portugal",
+      "capacity_units_per_day": 4,
+      "status": "running",
+      "current_workorder_id": null,
+      "active_work_orders": 1,
+      "total_work_orders": 1,
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    },
+    {
+      "id": "d52c8348-519d-5c55-8ec4-155b357f797d",
+      "name": "Line D - Smart Systems Install",
+      "location": "Figueira da Foz, Portugal",
+      "capacity_units_per_day": 5,
+      "status": "running",
+      "current_workorder_id": null,
+      "active_work_orders": 0,
+      "total_work_orders": 1,
+      "source": "synthetic_seeded",
+      "source_id": "seed-42",
+      "created_at": "2025-06-01T12:00:00+00:00",
+      "updated_at": "2025-06-01T12:00:00+00:00"
+    }
+  ],
+  "total_lines": 4,
+  "lines_running": 2,
+  "total_work_orders": 6
+}

@@ -101,7 +101,33 @@ if [ -d "$ROOT_DIR/backend/tests/integration" ] && [ "$(ls -A "$ROOT_DIR/backend
     run_gate "Python Integration Tests" "$PYTEST_CMD tests/integration/ -v --tb=short" "$ROOT_DIR/backend"
 fi
 
-# Gate 6: E2E smoke test (Playwright)
+# Gate 6: Frontend build
+if [ -d "$ROOT_DIR/frontend/node_modules" ]; then
+    run_gate "Frontend Build (vite)" "npx vite build" "$ROOT_DIR/frontend"
+else
+    skip_gate "Frontend Build" "node_modules not installed"
+fi
+
+# Gate 7: Static JSON presence (after build)
+if [ -d "$ROOT_DIR/frontend/dist/api" ]; then
+    MISSING_JSON=0
+    for f in health.json fabric.json fabric-scene.json frameworks.json sales.json intelligence.json deploy.json partners.json; do
+        if [ ! -f "$ROOT_DIR/frontend/dist/api/$f" ]; then
+            MISSING_JSON=1
+            echo "  MISSING: dist/api/$f"
+        fi
+    done
+    if [ "$MISSING_JSON" -eq 0 ]; then
+        echo -e "  ${GREEN}All 8 static JSON files present in dist/api/${NC}"
+        run_gate "Static JSON Presence" "true"
+    else
+        run_gate "Static JSON Presence" "false"
+    fi
+else
+    skip_gate "Static JSON Presence" "frontend/dist not built yet"
+fi
+
+# Gate 8: E2E smoke test (Playwright)
 if [ -d "$ROOT_DIR/frontend/node_modules/.bin" ] && command -v npx &>/dev/null; then
     if [ -f "$ROOT_DIR/frontend/playwright.config.ts" ]; then
         run_gate "E2E Smoke Tests (Playwright)" "npx playwright test --reporter=list" "$ROOT_DIR/frontend"

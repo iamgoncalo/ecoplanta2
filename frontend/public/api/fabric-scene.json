@@ -1,0 +1,237 @@
+{
+  "objects": [
+    {
+      "id": "0a2d3897-80c2-5613-a667-00a16a133199",
+      "name": "Factory Floor",
+      "type": "floor",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 50,
+        "y": 0.1,
+        "z": 30
+      },
+      "color": "#C0C0C0",
+      "metadata": {
+        "material": "concrete"
+      }
+    },
+    {
+      "id": "2f76d37f-9040-520a-8692-1f839bd149af",
+      "name": "CLT Assembly Station",
+      "type": "machine",
+      "position": {
+        "x": -15,
+        "y": 1.5,
+        "z": -8
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 6,
+        "y": 3,
+        "z": 4
+      },
+      "color": "#2196F3",
+      "metadata": {
+        "line": "Line A",
+        "status": "running"
+      }
+    },
+    {
+      "id": "f31fbcca-a772-5634-9110-beae3fa16f04",
+      "name": "Steel Framing Robot",
+      "type": "machine",
+      "position": {
+        "x": -5,
+        "y": 2,
+        "z": -8
+      },
+      "rotation": {
+        "x": 0,
+        "y": 45,
+        "z": 0
+      },
+      "scale": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+      },
+      "color": "#FF9800",
+      "metadata": {
+        "line": "Line B",
+        "status": "running"
+      }
+    },
+    {
+      "id": "aaf9964f-3706-5f78-8f32-4f8f06807ed3",
+      "name": "Module Integration Bay",
+      "type": "machine",
+      "position": {
+        "x": 8,
+        "y": 2,
+        "z": -5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 10,
+        "y": 4,
+        "z": 8
+      },
+      "color": "#4CAF50",
+      "metadata": {
+        "line": "Line C",
+        "status": "running"
+      }
+    },
+    {
+      "id": "2ca1fbfd-1c2d-5bc2-8a20-3881a28932a0",
+      "name": "Smart Systems Lab",
+      "type": "machine",
+      "position": {
+        "x": 8,
+        "y": 1.5,
+        "z": 8
+      },
+      "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+      },
+      "scale": {
+        "x": 6,
+        "y": 3,
+        "z": 5
+      },
+      "color": "#9C27B0",
+      "metadata": {
+        "line": "Line D",
+        "status": "idle"
+      }
+    },
+    {
+      "id": "f782f8bb-80ff-5839-b555-619d629f7327",
+      "name": "Main Conveyor Belt",
+      "type": "conveyor",
+      "position": {
+        "x": 0,
+        "y": 0.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 40,
+        "y": 0.3,
+        "z": 2
+      },
+      "color": "#607D8B",
+      "metadata": {
+        "speed_m_per_min": 2.5
+      }
+    },
+    {
+      "id": "fc31014e-f84e-5a63-ad2d-394419ce1920",
+      "name": "Raw Materials Storage",
+      "type": "storage",
+      "position": {
+        "x": -20,
+        "y": 2,
+        "z": 5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 8,
+        "y": 4,
+        "z": 10
+      },
+      "color": "#795548",
+      "metadata": {
+        "capacity_tonnes": 500
+      }
+    },
+    {
+      "id": "18c710f8-bbf0-54ca-bb1e-8f12a8e03354",
+      "name": "QA Inspection Area",
+      "type": "inspection",
+      "position": {
+        "x": 18,
+        "y": 1,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 5,
+        "y": 2,
+        "z": 5
+      },
+      "color": "#F44336",
+      "metadata": {
+        "inspector_stations": 3
+      }
+    },
+    {
+      "id": "56c9a947-6b1e-5e57-823a-5f0521dfacbd",
+      "name": "Loading Dock",
+      "type": "dock",
+      "position": {
+        "x": 24,
+        "y": 0.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+      },
+      "scale": {
+        "x": 4,
+        "y": 1,
+        "z": 12
+      },
+      "color": "#FF5722",
+      "metadata": {
+        "bays": 4
+      }
+    }
+  ],
+  "camera": {
+    "position": {
+      "x": 30,
+      "y": 25,
+      "z": 30
+    },
+    "target": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "fov": 60.0
+  }
+}

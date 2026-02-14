@@ -1,0 +1,6 @@
+{
+  "status": "ok",
+  "db_connected": false,
+  "redis_connected": false,
+  "version": "0.1.0"
+}
