@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generate static JSON files for GitHub Pages preview mode.
 
-Uses the existing SeedGenerator to produce deterministic data that matches
-the exact response shapes of the real API endpoints.
+Produces deterministic data that matches the exact TypeScript interfaces
+used by the frontend components (not the backend API shapes).
 
 Usage:
     python scripts/generate_static_api.py
@@ -15,32 +15,24 @@ from __future__ import annotations
 
 import json
 import os
-import sys
-from datetime import date, datetime
+import random
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
-# ---------------------------------------------------------------------------
-# Add the backend package to sys.path so we can import from app.*
-# ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parent.parent
-BACKEND_DIR = REPO_ROOT / "backend"
-sys.path.insert(0, str(BACKEND_DIR))
-
-from app.seed.generator import SeedGenerator  # noqa: E402
-
-# ---------------------------------------------------------------------------
-# Config
-# ---------------------------------------------------------------------------
 SEED = int(os.environ.get("SEED", "42"))
+REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = REPO_ROOT / "frontend" / "public" / "api"
 
+random.seed(SEED)
 
-# ---------------------------------------------------------------------------
-# JSON serialisation helper
-# ---------------------------------------------------------------------------
+
+def _uid() -> str:
+    return str(uuid4())
+
+
 def _json_serializer(obj: Any) -> Any:
-    """Handle datetime / date objects for json.dumps."""
     if isinstance(obj, datetime):
         return obj.isoformat()
     if isinstance(obj, date):
@@ -49,7 +41,6 @@ def _json_serializer(obj: Any) -> Any:
 
 
 def _write_json(filename: str, data: Any) -> None:
-    """Write *data* as pretty-printed JSON to OUTPUT_DIR/filename."""
     path = OUTPUT_DIR / filename
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(data, fh, indent=2, default=_json_serializer, ensure_ascii=False)
@@ -57,12 +48,9 @@ def _write_json(filename: str, data: Any) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Builders -- each mirrors the corresponding route handler
+# health.json
 # ---------------------------------------------------------------------------
-
-
 def build_health() -> dict[str, Any]:
-    """GET /api/health -- static version always reports disconnected."""
     return {
         "status": "ok",
         "db_connected": False,
@@ -71,367 +59,452 @@ def build_health() -> dict[str, Any]:
     }
 
 
-def build_fabric(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/fabric -- production lines with work-order summary."""
-    lines = data["production_lines"]
-    work_orders = data["work_orders"]
+# ---------------------------------------------------------------------------
+# fabric.json  - matches FabricResponse TypeScript interface
+# ---------------------------------------------------------------------------
+def build_fabric() -> dict[str, Any]:
+    statuses = ["running", "idle", "maintenance", "running", "running"]
+    products = [
+        "EcoContainer 20ft",
+        "EcoContainer 40ft",
+        "Planta Module A",
+        "Planta Module B",
+        "EcoContainer HQ",
+    ]
+    lines = []
+    for i in range(5):
+        eff = round(random.uniform(72, 98), 1)
+        lines.append({
+            "id": _uid(),
+            "name": f"Line {chr(65 + i)}",
+            "status": statuses[i],
+            "throughput": random.randint(40, 120),
+            "efficiency": eff,
+            "product": products[i],
+        })
 
-    fabric_items: list[dict[str, Any]] = []
-    for pl in lines:
-        wo_for_line = [wo for wo in work_orders if wo.get("production_line_id") == pl["id"]]
-        active = sum(1 for wo in wo_for_line if wo["status"] in ("in_progress", "scheduled"))
-        fabric_items.append(
-            {
-                "id": pl["id"],
-                "name": pl["name"],
-                "location": pl["location"],
-                "capacity_units_per_day": pl["capacity_units_per_day"],
-                "status": pl["status"],
-                "current_workorder_id": pl.get("current_workorder_id"),
-                "active_work_orders": active,
-                "total_work_orders": len(wo_for_line),
-                "source": pl.get("source", "synthetic_seeded"),
-                "source_id": pl.get("source_id"),
-                "created_at": pl.get("created_at"),
-                "updated_at": pl.get("updated_at"),
-            }
-        )
+    priorities = ["high", "medium", "low"]
+    wo_statuses = ["in_progress", "scheduled", "completed", "in_progress", "scheduled",
+                   "completed", "in_progress", "scheduled"]
+    orders = []
+    for i in range(8):
+        orders.append({
+            "id": _uid(),
+            "product": random.choice(products),
+            "quantity": random.randint(2, 50),
+            "status": wo_statuses[i],
+            "due_date": (date.today() + timedelta(days=random.randint(3, 45))).isoformat(),
+            "priority": random.choice(priorities),
+        })
 
-    running = sum(1 for item in fabric_items if item["status"] == "running")
+    running = sum(1 for l in lines if l["status"] == "running")
+    avg_eff = round(sum(l["efficiency"] for l in lines) / len(lines), 1)
+    total_tp = sum(l["throughput"] for l in lines)
+    open_orders = sum(1 for o in orders if o["status"] != "completed")
 
     return {
-        "production_lines": fabric_items,
-        "total_lines": len(fabric_items),
-        "lines_running": running,
-        "total_work_orders": len(work_orders),
+        "production_lines": lines,
+        "work_orders": orders,
+        "metrics": {
+            "active_lines": running,
+            "avg_efficiency": avg_eff,
+            "total_throughput": total_tp,
+            "open_orders": open_orders,
+            "lines_change": 1,
+            "efficiency_change": 2.3,
+        },
     }
 
 
-def build_fabric_scene(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/fabric/scene -- 3D scene objects for factory layout."""
-    scene = data["factory_scene"]
+# ---------------------------------------------------------------------------
+# fabric-scene.json - matches SceneObject[] (position/scale as tuples)
+# ---------------------------------------------------------------------------
+def build_fabric_scene() -> dict[str, Any]:
+    types = ["box", "cylinder", "box", "box", "cylinder", "box", "box"]
+    names = [
+        "Assembly Station A",
+        "Welding Robot 1",
+        "Material Storage",
+        "Quality Control",
+        "Paint Booth",
+        "CNC Mill",
+        "Packaging Bay",
+    ]
+    colors = ["#3b82f6", "#ef4444", "#22c55e", "#eab308", "#8b5cf6", "#06b6d4", "#f97316"]
 
-    objects: list[dict[str, Any]] = []
-    for obj in scene["objects"]:
-        objects.append(
-            {
-                "id": obj["id"],
-                "name": obj["name"],
-                "type": obj["type"],
-                "position": {"x": obj["position"]["x"], "y": obj["position"]["y"], "z": obj["position"]["z"]},
-                "rotation": {"x": obj["rotation"]["x"], "y": obj["rotation"]["y"], "z": obj["rotation"]["z"]},
-                "scale": {"x": obj["scale"]["x"], "y": obj["scale"]["y"], "z": obj["scale"]["z"]},
-                "color": obj["color"],
-                "metadata": obj.get("metadata"),
-            }
-        )
+    objects = []
+    for i, (tp, nm, col) in enumerate(zip(types, names, colors)):
+        x = (i % 4) * 3.0 - 4.5
+        z = (i // 4) * 4.0 - 2.0
+        sy = round(random.uniform(0.8, 2.5), 1)
+        objects.append({
+            "id": _uid(),
+            "type": tp,
+            "name": nm,
+            "position": [round(x, 1), round(sy / 2, 1), round(z, 1)],
+            "scale": [round(random.uniform(1.0, 2.0), 1), sy, round(random.uniform(1.0, 2.0), 1)],
+            "color": col,
+            "metadata": {"zone": f"Zone {chr(65 + i)}", "capacity": random.randint(50, 200)},
+        })
 
-    cam = scene["camera"]
-    camera = {
-        "position": {"x": cam["position"]["x"], "y": cam["position"]["y"], "z": cam["position"]["z"]},
-        "target": {"x": cam["target"]["x"], "y": cam["target"]["y"], "z": cam["target"]["z"]},
-        "fov": cam.get("fov", 60.0),
-    }
-
-    return {"objects": objects, "camera": camera}
+    return {"objects": objects}
 
 
-def build_frameworks(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/frameworks -- frameworks with related materials and patents."""
-    frameworks_raw = data["frameworks"]
-    materials_raw = data["materials"]
-    patents_raw = data["patents"]
-
-    # Build material summaries
-    material_summaries: list[dict[str, Any]] = [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "category": m["category"],
-            "grade": m["grade"],
-            "is_smart_material": m["is_smart_material"],
-            "tensile_strength": m["tensile_strength"],
-            "embodied_carbon_kg": m["embodied_carbon_kg"],
-            "source": m.get("source", "synthetic_seeded"),
-            "source_id": m.get("source_id"),
-            "created_at": m.get("created_at"),
-            "updated_at": m.get("updated_at"),
-        }
-        for m in materials_raw
+# ---------------------------------------------------------------------------
+# frameworks.json - matches FrameworksResponse
+# ---------------------------------------------------------------------------
+def build_frameworks() -> dict[str, Any]:
+    fw_names = [
+        "EcoFrame Premium",
+        "Planta Structural Core",
+        "HQ Steel Composite",
+        "Smart Thermal Shell",
+        "Bio-Composite Frame",
+        "Nano-Enhanced Panel",
+    ]
+    fw_types = ["modular", "structural", "composite", "thermal", "bio", "nano"]
+    fw_materials_list = [
+        "High-Grade Steel",
+        "Reinforced Concrete",
+        "Carbon Fiber Composite",
+        "Smart Glass",
+        "Hemp Bio-Composite",
+        "Graphene-Enhanced Polymer",
+    ]
+    fw_descs = [
+        "Premium modular framework for rapid container assembly with superior load-bearing.",
+        "Core structural system for Planta Smart Homes with integrated sensor mounting.",
+        "High-quality steel and composite hybrid for headquarters-grade installations.",
+        "Thermally adaptive shell with embedded smart material responses.",
+        "Sustainable bio-composite framework using hemp fiber reinforcement.",
+        "Next-generation nano-enhanced panels with self-healing properties.",
     ]
 
-    # Build patent summaries
-    patent_summaries: list[dict[str, Any]] = [
-        {
-            "id": p["id"],
-            "title": p["title"],
-            "filing_number": p["filing_number"],
-            "status": p["status"],
-            "filing_date": p.get("filing_date"),
-            "source": p.get("source", "synthetic_seeded"),
-            "source_id": p.get("source_id"),
-            "created_at": p.get("created_at"),
-            "updated_at": p.get("updated_at"),
-        }
-        for p in patents_raw
+    frameworks = []
+    for i in range(6):
+        frameworks.append({
+            "id": _uid(),
+            "name": fw_names[i],
+            "type": fw_types[i],
+            "structural_rating": random.randint(6, 10),
+            "material": fw_materials_list[i],
+            "smart_enabled": i >= 3,
+            "description": fw_descs[i],
+        })
+
+    mat_categories = ["steel", "composite", "insulation", "concrete", "polymer", "glass",
+                      "bio-composite", "nano-material"]
+    mat_grades = ["A+", "A", "B+", "B", "A+", "A", "A+", "A+"]
+    mat_names = [
+        "High-Tensile Steel S355",
+        "Carbon Fiber Reinforced Polymer",
+        "Aerogel Insulation Panel",
+        "Ultra-High Performance Concrete",
+        "Recycled HDPE Composite",
+        "Low-E Smart Glass",
+        "Hemp-Lime Bio Panel",
+        "Graphene Oxide Coating",
     ]
 
-    framework_items: list[dict[str, Any]] = []
-    for idx, fw in enumerate(frameworks_raw):
-        # Same slicing logic as the route handler
-        fw_materials = material_summaries[idx * 3 : idx * 3 + 3]
-        fw_patents = patent_summaries[idx : idx + 2]
+    materials = []
+    for i in range(8):
+        is_smart = i in [2, 5, 7]
+        materials.append({
+            "id": _uid(),
+            "name": mat_names[i],
+            "category": mat_categories[i],
+            "grade": mat_grades[i],
+            "properties": {
+                "density": round(random.uniform(1.5, 8.0), 2),
+                "recyclable": random.choice([True, False]),
+            },
+            "strength": round(random.uniform(150, 900), 0) if i < 5 else None,
+            "thermal_conductivity": round(random.uniform(0.01, 50), 2),
+            "embodied_carbon": round(random.uniform(0.5, 25), 1),
+            "is_smart": is_smart,
+        })
 
-        framework_items.append(
-            {
-                "id": fw["id"],
-                "name": fw["name"],
-                "framework_type": fw["framework_type"],
-                "description": fw.get("description"),
-                "structural_rating": fw["structural_rating"],
-                "materials": fw_materials,
-                "patents": fw_patents,
-                "source": fw.get("source", "synthetic_seeded"),
-                "source_id": fw.get("source_id"),
-                "created_at": fw.get("created_at"),
-                "updated_at": fw.get("updated_at"),
-            }
-        )
+    pat_statuses = ["granted", "pending", "filed", "granted", "pending"]
+    pat_titles = [
+        "Smart Container Thermal Regulation System",
+        "Self-Healing Composite Panel Method",
+        "Modular Frame Quick-Lock Mechanism",
+        "AI-Optimized Structural Load Distribution",
+        "Bio-Responsive Insulation Material",
+    ]
+    pat_descs = [
+        "A thermal regulation system using phase-change materials embedded in container walls.",
+        "Method for self-healing micro-cracks in composite building panels.",
+        "Quick-lock mechanism allowing rapid modular frame assembly without welding.",
+        "AI-driven system for optimizing load distribution across structural members.",
+        "Insulation material that adapts thermal resistance based on ambient conditions.",
+    ]
+
+    patents = []
+    for i in range(5):
+        patents.append({
+            "id": _uid(),
+            "title": pat_titles[i],
+            "filing_date": (date.today() - timedelta(days=random.randint(30, 400))).isoformat(),
+            "status": pat_statuses[i],
+            "description": pat_descs[i],
+        })
 
     return {
-        "frameworks": framework_items,
-        "total_frameworks": len(framework_items),
-        "total_materials": len(materials_raw),
-        "total_patents": len(patents_raw),
+        "frameworks": frameworks,
+        "materials": materials,
+        "patents": patents,
     }
 
 
-def build_sales(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/sales -- leads with opportunities and pipeline stats."""
-    leads_raw = data["leads"]
-    opps_raw = data["opportunities"]
+# ---------------------------------------------------------------------------
+# sales.json - matches SalesResponse
+# ---------------------------------------------------------------------------
+def build_sales() -> dict[str, Any]:
+    stages = ["Discovery", "Proposal", "Negotiation", "Won", "Lost"]
+    stage_counts = [12, 8, 5, 3, 2]
+    stage_values = [1200000, 2400000, 1800000, 950000, 320000]
 
-    # Index opportunities by lead_id
-    opps_by_lead: dict[str, list[dict[str, Any]]] = {}
-    for opp in opps_raw:
-        opps_by_lead.setdefault(opp["lead_id"], []).append(opp)
+    pipeline = [
+        {"name": stages[i], "count": stage_counts[i], "value": stage_values[i]}
+        for i in range(5)
+    ]
 
-    lead_items: list[dict[str, Any]] = []
-    for ld in leads_raw:
-        lead_opps = opps_by_lead.get(ld["id"], [])
-        opp_summaries = [
-            {
-                "id": o["id"],
-                "title": o["title"],
-                "value": o["value"],
-                "stage": o["stage"],
-                "probability": o["probability"],
-                "source": o.get("source", "synthetic_seeded"),
-                "source_id": o.get("source_id"),
-                "created_at": o.get("created_at"),
-                "updated_at": o.get("updated_at"),
-            }
-            for o in lead_opps
-        ]
-        lead_items.append(
-            {
-                "id": ld["id"],
-                "name": ld["name"],
-                "email": ld["email"],
-                "company": ld.get("company"),
-                "status": ld["status"],
-                "score": ld["score"],
-                "opportunities": opp_summaries,
-                "source": ld.get("source", "synthetic_seeded"),
-                "source_id": ld.get("source_id"),
-                "created_at": ld.get("created_at"),
-                "updated_at": ld.get("updated_at"),
-            }
-        )
+    companies = [
+        "Porto Housing Corp", "Lisboa Green Builds", "Algarve Eco Villas",
+        "Barcelona Modular SA", "Amsterdam Living Labs", "Berlin Container GmbH",
+        "Milano Smart Homes", "Warsaw Urban Dev", "Vienna Eco-Build",
+        "Paris Green Quarter",
+    ]
+    contacts = [
+        "Ana Silva", "Miguel Santos", "Sofia Pereira", "Carlos Rodriguez",
+        "Jan de Vries", "Klaus Schmidt", "Lucia Rossi", "Anna Kowalska",
+        "Fritz Weber", "Marie Dupont",
+    ]
 
-    # Pipeline stats
-    total_value = sum(o["value"] for o in opps_raw)
-    weighted_value = sum(o["value"] * o["probability"] for o in opps_raw)
-    qualified = sum(
-        1 for ld in leads_raw if ld["status"] in ("qualified", "proposal", "negotiation", "won")
-    )
-    avg_deal = total_value / len(opps_raw) if opps_raw else 0.0
+    leads = []
+    for i in range(10):
+        stage = random.choice(stages[:4])
+        leads.append({
+            "id": _uid(),
+            "company": companies[i],
+            "contact": contacts[i],
+            "score": random.randint(30, 98),
+            "stage": stage,
+            "value": random.randint(50000, 500000),
+            "last_activity": (date.today() - timedelta(days=random.randint(0, 30))).isoformat(),
+        })
 
-    pipeline = {
-        "total_leads": len(leads_raw),
-        "qualified_leads": qualified,
-        "total_pipeline_value": round(total_value, 2),
-        "weighted_pipeline_value": round(weighted_value, 2),
-        "avg_deal_size": round(avg_deal, 2),
+    total_value = sum(s["value"] for s in pipeline)
+    won_value = pipeline[3]["value"]
+    total_leads = sum(s["count"] for s in pipeline)
+
+    metrics = {
+        "total_revenue": won_value,
+        "conversion_rate": round(pipeline[3]["count"] / total_leads * 100, 1) if total_leads else 0,
+        "avg_deal_size": round(total_value / total_leads, 0) if total_leads else 0,
+        "pipeline_value": total_value,
     }
 
-    return {"leads": lead_items, "pipeline": pipeline}
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    revenue_chart = []
+    for m in months:
+        rev = random.randint(150000, 400000)
+        target = random.randint(200000, 350000)
+        revenue_chart.append({"month": m, "revenue": rev, "target": target})
+
+    return {
+        "pipeline": pipeline,
+        "leads": leads,
+        "metrics": metrics,
+        "revenue_chart": revenue_chart,
+    }
 
 
-def build_intelligence(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/intelligence -- insight reports and analytics."""
-    reports_raw = data["insight_reports"]
+# ---------------------------------------------------------------------------
+# intelligence.json - matches IntelligenceResponse
+# ---------------------------------------------------------------------------
+def build_intelligence() -> dict[str, Any]:
+    kpis = [
+        {"name": "Production Efficiency", "value": 87.2, "unit": "%", "change": 2.3, "trend": "up"},
+        {"name": "Defect Rate", "value": 1.8, "unit": "%", "change": -0.4, "trend": "down"},
+        {"name": "Avg Lead Time", "value": 14.5, "unit": "days", "change": -1.2, "trend": "down"},
+        {"name": "Energy Usage", "value": 342, "unit": "kWh/unit", "change": -8, "trend": "down"},
+    ]
 
-    insights: list[dict[str, Any]] = []
-    for rpt in reports_raw:
-        params = rpt.get("parameters_json")
-        results = rpt.get("results_json")
-        insights.append(
-            {
-                "id": rpt["id"],
-                "title": rpt["title"],
-                "module": rpt["module"],
-                "report_type": rpt["report_type"],
-                "parameters": json.loads(params) if isinstance(params, str) else params,
-                "results": json.loads(results) if isinstance(results, str) else results,
-                "generated_at": rpt.get("generated_at"),
-                "source": rpt.get("source", "synthetic_seeded"),
-                "source_id": rpt.get("source_id"),
-                "created_at": rpt.get("created_at"),
-                "updated_at": rpt.get("updated_at"),
-            }
-        )
+    quarters = ["Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024", "Q1 2025", "Q2 2025"]
+    forecasts = []
+    for i, q in enumerate(quarters):
+        actual = random.randint(80, 120) if i < 4 else None
+        forecast = random.randint(85, 125)
+        forecasts.append({
+            "period": q,
+            "actual": actual,
+            "forecast": forecast,
+            "lower_bound": forecast - random.randint(5, 15),
+            "upper_bound": forecast + random.randint(5, 15),
+        })
+
+    categories = ["production", "quality", "supply_chain", "sustainability", "market"]
+    impacts = ["high", "medium", "high", "medium", "low"]
+    insight_titles = [
+        "Production Line Optimization Opportunity",
+        "Quality Trend Analysis - Q4 Results",
+        "Supply Chain Risk Assessment: EU Logistics",
+        "Carbon Footprint Reduction Progress",
+        "Market Demand Forecast: Modular Housing 2025",
+        "Material Cost Trend: Steel Price Volatility",
+    ]
+    insight_summaries = [
+        "Line C shows 15% under-utilization. Recommending shift rebalancing for +12% throughput.",
+        "Defect rate dropped to 1.8% across all lines. Welding quality improved after training program.",
+        "EU logistics delays expected in Q2 due to new border regulations. Recommend buffer stock increase.",
+        "Carbon reduction targets on track: 22% reduction YoY. Bio-composite adoption accelerating.",
+        "Modular housing demand in Portugal projected to grow 35% in 2025. Expansion recommended.",
+        "Steel prices showing 8% quarterly volatility. Lock-in contracts recommended for Q2-Q3.",
+    ]
+
+    insights = []
+    for i in range(6):
+        insights.append({
+            "id": _uid(),
+            "title": insight_titles[i],
+            "category": categories[i % len(categories)],
+            "summary": insight_summaries[i],
+            "date": (date.today() - timedelta(days=i * 7)).isoformat(),
+            "impact": impacts[i % len(impacts)],
+        })
 
     return {
         "insights": insights,
-        "total_insights": len(insights),
+        "forecasts": forecasts,
+        "kpis": kpis,
     }
 
 
-def build_deploy(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/deploy -- deliveries with deployment jobs."""
-    deliveries_raw = data["deliveries"]
-    jobs_raw = data["deployment_jobs"]
+# ---------------------------------------------------------------------------
+# deploy.json - matches DeployResponse
+# ---------------------------------------------------------------------------
+def build_deploy() -> dict[str, Any]:
+    destinations = [
+        "Porto, Portugal", "Lisboa, Portugal", "Faro, Portugal",
+        "Barcelona, Spain", "Madrid, Spain", "Amsterdam, Netherlands",
+        "Berlin, Germany", "Milano, Italy",
+    ]
+    del_statuses = ["in_transit", "delivered", "in_transit", "preparing",
+                    "delivered", "in_transit", "preparing", "delivered"]
 
-    # Index deployment jobs by delivery_id
-    jobs_by_delivery: dict[str, list[dict[str, Any]]] = {}
-    for job in jobs_raw:
-        jobs_by_delivery.setdefault(job["delivery_id"], []).append(job)
+    deliveries = []
+    for i in range(8):
+        progress = 100 if del_statuses[i] == "delivered" else random.randint(10, 90)
+        deliveries.append({
+            "id": _uid(),
+            "destination": destinations[i],
+            "status": del_statuses[i],
+            "eta": (date.today() + timedelta(days=random.randint(1, 30))).isoformat(),
+            "progress": progress,
+            "items": random.randint(2, 24),
+        })
 
-    deploy_items: list[dict[str, Any]] = []
-    for dlv in deliveries_raw:
-        dlv_jobs = jobs_by_delivery.get(dlv["id"], [])
-        job_summaries = [
-            {
-                "id": j["id"],
-                "site_address": j["site_address"],
-                "status": j["status"],
-                "commissioning_date": j.get("commissioning_date"),
-                "crew_lead": j.get("crew_lead"),
-                "source": j.get("source", "synthetic_seeded"),
-                "source_id": j.get("source_id"),
-                "created_at": j.get("created_at"),
-                "updated_at": j.get("updated_at"),
-            }
-            for j in dlv_jobs
-        ]
-        deploy_items.append(
-            {
-                "id": dlv["id"],
-                "origin": dlv["origin"],
-                "destination": dlv["destination"],
-                "carrier": dlv["carrier"],
-                "status": dlv["status"],
-                "estimated_arrival": dlv.get("estimated_arrival"),
-                "actual_arrival": dlv.get("actual_arrival"),
-                "deployment_jobs": job_summaries,
-                "source": dlv.get("source", "synthetic_seeded"),
-                "source_id": dlv.get("source_id"),
-                "created_at": dlv.get("created_at"),
-                "updated_at": dlv.get("updated_at"),
-            }
-        )
+    job_types = ["installation", "commissioning", "inspection", "handover",
+                 "installation", "commissioning"]
+    job_statuses = ["active", "completed", "active", "pending", "active", "completed"]
+    sites = [
+        "Site A - Porto Norte", "Site B - Lisboa Centro", "Site C - Faro Sul",
+        "Site D - Barcelona Este", "Site E - Amsterdam West", "Site F - Berlin Mitte",
+    ]
+    teams = ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot"]
 
-    in_transit = sum(1 for d in deploy_items if d["status"] == "in_transit")
-    delivered = sum(1 for d in deploy_items if d["status"] == "delivered")
+    jobs = []
+    for i in range(6):
+        jobs.append({
+            "id": _uid(),
+            "site": sites[i],
+            "type": job_types[i],
+            "status": job_statuses[i],
+            "started": (date.today() - timedelta(days=random.randint(1, 30))).isoformat(),
+            "team": teams[i],
+        })
+
+    in_transit = sum(1 for d in deliveries if d["status"] == "in_transit")
+    delivered = sum(1 for d in deliveries if d["status"] == "delivered")
+    active_sites = sum(1 for j in jobs if j["status"] == "active")
 
     return {
-        "deliveries": deploy_items,
-        "total_deliveries": len(deploy_items),
-        "in_transit": in_transit,
-        "delivered": delivered,
+        "deliveries": deliveries,
+        "jobs": jobs,
+        "metrics": {
+            "active_deliveries": len(deliveries),
+            "in_transit": in_transit,
+            "active_sites": active_sites,
+            "completed": delivered,
+        },
     }
 
 
-def build_partners(data: dict[str, Any]) -> dict[str, Any]:
-    """GET /api/partners -- partners with capacity plans and utilisation stats."""
-    partners_raw = data["partners"]
-    plans_raw = data["capacity_plans"]
+# ---------------------------------------------------------------------------
+# partners.json - matches PartnersResponse
+# ---------------------------------------------------------------------------
+def build_partners() -> dict[str, Any]:
+    partner_data = [
+        ("EcoBuild Portugal", "manufacturer", "Southern EU", "Portugal", 72),
+        ("ModularTech Spain", "manufacturer", "Southern EU", "Spain", 85),
+        ("GreenFrame Germany", "supplier", "Central EU", "Germany", 58),
+        ("NordicPrefab Sweden", "manufacturer", "Northern EU", "Sweden", 64),
+        ("DutchModular NL", "logistics", "Western EU", "Netherlands", 91),
+        ("ItalBuild Milano", "manufacturer", "Southern EU", "Italy", 77),
+        ("PolishStruct Warsaw", "supplier", "Eastern EU", "Poland", 45),
+        ("AustriaPanel Wien", "manufacturer", "Central EU", "Austria", 69),
+    ]
 
-    # Index capacity plans by partner_id
-    plans_by_partner: dict[str, list[dict[str, Any]]] = {}
-    for plan in plans_raw:
-        plans_by_partner.setdefault(plan["partner_id"], []).append(plan)
+    partners = []
+    for name, ptype, region, country, util in partner_data:
+        partners.append({
+            "id": _uid(),
+            "name": name,
+            "type": ptype,
+            "region": region,
+            "country": country,
+            "capacity_utilization": util,
+            "capacity": random.randint(100, 500),
+            "compliance_status": random.choice(["compliant", "compliant", "compliant", "review_needed"]),
+            "active_projects": random.randint(1, 8),
+            "rating": random.randint(3, 5),
+            "lead_time": random.randint(7, 28),
+        })
 
-    partner_items: list[dict[str, Any]] = []
-    for p in partners_raw:
-        p_plans = plans_by_partner.get(p["id"], [])
-        plan_summaries = [
-            {
-                "id": cp["id"],
-                "month": cp["month"],
-                "allocated_units": cp["allocated_units"],
-                "available_units": cp["available_units"],
-                "utilization_pct": cp["utilization_pct"],
-                "source": cp.get("source", "synthetic_seeded"),
-                "source_id": cp.get("source_id"),
-                "created_at": cp.get("created_at"),
-                "updated_at": cp.get("updated_at"),
-            }
-            for cp in p_plans
-        ]
-        partner_items.append(
-            {
-                "id": p["id"],
-                "name": p["name"],
-                "country": p["country"],
-                "region": p["region"],
-                "capacity_units_per_month": p["capacity_units_per_month"],
-                "contact_email": p.get("contact_email"),
-                "rating": p["rating"],
-                "lead_time_days": p["lead_time_days"],
-                "capacity_plans": plan_summaries,
-                "source": p.get("source", "synthetic_seeded"),
-                "source_id": p.get("source_id"),
-                "created_at": p.get("created_at"),
-                "updated_at": p.get("updated_at"),
-            }
-        )
-
-    total_cap = sum(p["capacity_units_per_month"] for p in partner_items)
-    all_util = [cp["utilization_pct"] for cp in plans_raw]
-    avg_util = round(sum(all_util) / len(all_util), 1) if all_util else 0.0
+    regions = list(set(p["region"] for p in partners))
+    compliant = sum(1 for p in partners if p["compliance_status"] == "compliant")
+    avg_util = round(sum(p["capacity_utilization"] for p in partners) / len(partners), 1)
 
     return {
-        "partners": partner_items,
-        "total_partners": len(partner_items),
-        "total_capacity": total_cap,
-        "avg_utilization": avg_util,
+        "partners": partners,
+        "metrics": {
+            "total_partners": len(partners),
+            "regions": len(regions),
+            "compliant": compliant,
+            "avg_utilization": avg_util,
+        },
     }
 
 
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-
-
 def main() -> None:
     print(f"Generating static API JSON files (SEED={SEED}) ...")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    gen = SeedGenerator(seed=SEED)
-    data = gen.generate_all()
-
     _write_json("health.json", build_health())
-    _write_json("fabric.json", build_fabric(data))
-    _write_json("fabric-scene.json", build_fabric_scene(data))
-    _write_json("frameworks.json", build_frameworks(data))
-    _write_json("sales.json", build_sales(data))
-    _write_json("intelligence.json", build_intelligence(data))
-    _write_json("deploy.json", build_deploy(data))
-    _write_json("partners.json", build_partners(data))
+    _write_json("fabric.json", build_fabric())
+    _write_json("fabric-scene.json", build_fabric_scene())
+    _write_json("frameworks.json", build_frameworks())
+    _write_json("sales.json", build_sales())
+    _write_json("intelligence.json", build_intelligence())
+    _write_json("deploy.json", build_deploy())
+    _write_json("partners.json", build_partners())
 
-    print("Done.")
+    print("Done. All 8 files generated.")
 
 
 if __name__ == "__main__":

@@ -1,311 +1,209 @@
 {
   "frameworks": [
     {
-      "id": "9c702775-713e-5c1e-a45c-5ec352e18f25",
-      "name": "EcoFrame Hybrid CLT-Steel",
-      "framework_type": "hybrid",
-      "description": "Patented hybrid cross-laminated timber and high-strength steel modular framing system for seismic zone IV compliance.",
-      "structural_rating": "A+",
-      "materials": [
-        {
-          "id": "0e327321-d79d-536d-a957-62e0aaa2c9a8",
-          "name": "Cross-Laminated Timber (CLT) Grade C24",
-          "category": "structural_timber",
-          "grade": "C24",
-          "is_smart_material": false,
-          "tensile_strength": 420.0,
-          "embodied_carbon_kg": 110.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "c839d024-b398-5a3f-a59a-10558d131c89",
-          "name": "Ultra-High Performance Concrete (UHPC)",
-          "category": "smart_concrete",
-          "grade": "UHPC-150",
-          "is_smart_material": false,
-          "tensile_strength": 150.0,
-          "embodied_carbon_kg": 280.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "91a6e626-d2bd-52fc-b8d7-a0d0b8d842d6",
-          "name": "Aerogel Insulation Panel",
-          "category": "insulation_aerogel",
-          "grade": "AeroTherm-Pro",
-          "is_smart_material": true,
-          "tensile_strength": 8.0,
-          "embodied_carbon_kg": 45.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "patents": [
-        {
-          "id": "55b5a872-f931-5d13-bd68-c307acc223c4",
-          "title": "Modular CLT-Steel Hybrid Connector for Seismic Resilience",
-          "filing_number": "EP-2024-001234",
-          "status": "granted",
-          "filing_date": "2024-06-12",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "22239231-2f01-544d-b10d-414af39fd119",
-          "title": "Self-Healing Bio-Concrete Mix with Bacillus Subtilis Integration",
-          "filing_number": "EP-2024-001567",
-          "status": "granted",
-          "filing_date": "2024-04-14",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "id": "e070fae4-258f-4c48-922a-9dea10741873",
+      "name": "EcoFrame Premium",
+      "type": "modular",
+      "structural_rating": 10,
+      "material": "High-Grade Steel",
+      "smart_enabled": false,
+      "description": "Premium modular framework for rapid container assembly with superior load-bearing."
     },
     {
-      "id": "b7f208f0-5c66-5ad8-a632-abf4f03b8d59",
-      "name": "BioFrame Self-Healing Concrete",
-      "framework_type": "concrete",
-      "description": "Self-healing bio-concrete structural framework with embedded sensors for real-time stress monitoring.",
-      "structural_rating": "A",
-      "materials": [
-        {
-          "id": "67240c02-6cfd-5514-8300-11b5f6ab13aa",
-          "name": "Triple-Glazed Smart Glass",
-          "category": "smart_glass",
-          "grade": "SmartView-3X",
-          "is_smart_material": true,
-          "tensile_strength": 120.0,
-          "embodied_carbon_kg": 95.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "18db3dfc-5132-5c2f-ad85-baf7ceca8c3b",
-          "name": "Phase-Change Material Wallboard",
-          "category": "phase_change_material",
-          "grade": "PCM-23",
-          "is_smart_material": true,
-          "tensile_strength": 15.0,
-          "embodied_carbon_kg": 35.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "2f5c7456-d6f1-5c7f-b8a0-72c41d186882",
-          "name": "High-Strength Structural Steel S460",
-          "category": "structural_steel",
-          "grade": "S460ML",
-          "is_smart_material": false,
-          "tensile_strength": 540.0,
-          "embodied_carbon_kg": 1200.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "patents": [
-        {
-          "id": "22239231-2f01-544d-b10d-414af39fd119",
-          "title": "Self-Healing Bio-Concrete Mix with Bacillus Subtilis Integration",
-          "filing_number": "EP-2024-001567",
-          "status": "granted",
-          "filing_date": "2024-04-14",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "47046bf0-6839-5331-84e5-294226af5054",
-          "title": "Adaptive Smart Glass Facade with Electrochromic Control System",
-          "filing_number": "EP-2025-002345",
-          "status": "pending",
-          "filing_date": "2025-09-10",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "id": "6598a904-3924-4555-994a-6bca82c5a217",
+      "name": "Planta Structural Core",
+      "type": "structural",
+      "structural_rating": 7,
+      "material": "Reinforced Concrete",
+      "smart_enabled": false,
+      "description": "Core structural system for Planta Smart Homes with integrated sensor mounting."
     },
     {
-      "id": "34af45ac-5da4-5162-afbe-5621bbbe18a2",
-      "name": "NanoFrame Graphene-Enhanced",
-      "framework_type": "composite",
-      "description": "Graphene-enhanced composite framework with superior strength-to-weight ratio and thermal performance.",
-      "structural_rating": "A+",
-      "materials": [
-        {
-          "id": "d978334d-6ace-5c04-bc9a-004784cc0e26",
-          "name": "Self-Healing Bio-Concrete",
-          "category": "smart_concrete",
-          "grade": "BioHeal-50",
-          "is_smart_material": true,
-          "tensile_strength": 55.0,
-          "embodied_carbon_kg": 180.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "f7ea293c-4eff-5e3d-9272-642d711694ad",
-          "name": "Vacuum Insulation Panel (VIP)",
-          "category": "insulation_aerogel",
-          "grade": "VIP-Core-7",
-          "is_smart_material": false,
-          "tensile_strength": 5.0,
-          "embodied_carbon_kg": 30.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "68089915-834f-5e87-97d2-b4642bbf3be4",
-          "name": "Carbon Fiber Reinforced Polymer (CFRP) Rebar",
-          "category": "carbon_fiber",
-          "grade": "CFRP-12",
-          "is_smart_material": false,
-          "tensile_strength": 2000.0,
-          "embodied_carbon_kg": 320.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "patents": [
-        {
-          "id": "47046bf0-6839-5331-84e5-294226af5054",
-          "title": "Adaptive Smart Glass Facade with Electrochromic Control System",
-          "filing_number": "EP-2025-002345",
-          "status": "pending",
-          "filing_date": "2025-09-10",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "a690ef8d-1a61-5e41-a7e1-832b6463b932",
-          "title": "Phase-Change Material Thermal Storage for Modular Housing",
-          "filing_number": "EP-2025-002789",
-          "status": "pending",
-          "filing_date": "2024-03-21",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "id": "e72f2d7a-51ae-4158-a04d-70e919458224",
+      "name": "HQ Steel Composite",
+      "type": "composite",
+      "structural_rating": 10,
+      "material": "Carbon Fiber Composite",
+      "smart_enabled": false,
+      "description": "High-quality steel and composite hybrid for headquarters-grade installations."
     },
     {
-      "id": "576dcdc5-e4e1-5d23-afff-ee9124c45703",
-      "name": "SmartFrame Adaptive Skin",
-      "framework_type": "adaptive",
-      "description": "Adaptive building envelope framework integrating phase-change materials, smart glass, and piezoelectric harvesting.",
-      "structural_rating": "A",
-      "materials": [
-        {
-          "id": "5735f074-48d8-58c3-bfad-400a34d023ef",
-          "name": "Piezoelectric Energy Harvesting Tile",
-          "category": "smart_coating",
-          "grade": "PZT-Floor-V2",
-          "is_smart_material": true,
-          "tensile_strength": 80.0,
-          "embodied_carbon_kg": 55.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "db699834-eb5d-5246-87fa-43d0377c9d66",
-          "name": "Graphene-Enhanced Waterproofing Membrane",
-          "category": "smart_coating",
-          "grade": "GrapheneSeal-Pro",
-          "is_smart_material": true,
-          "tensile_strength": 35.0,
-          "embodied_carbon_kg": 18.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "8be57d1c-108c-5f72-80da-65322d2ba514",
-          "name": "Recycled Aluminium Composite Panel",
-          "category": "composite_panel",
-          "grade": "ReAlu-FR-A2",
-          "is_smart_material": false,
-          "tensile_strength": 310.0,
-          "embodied_carbon_kg": 85.0,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "patents": [
-        {
-          "id": "a690ef8d-1a61-5e41-a7e1-832b6463b932",
-          "title": "Phase-Change Material Thermal Storage for Modular Housing",
-          "filing_number": "EP-2025-002789",
-          "status": "pending",
-          "filing_date": "2024-03-21",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        },
-        {
-          "id": "b1b7de1b-8d23-5cac-a322-cb35212733bd",
-          "title": "Graphene-Enhanced Waterproofing Membrane for CLT Structures",
-          "filing_number": "PT-2025-003456",
-          "status": "filed",
-          "filing_date": "2024-02-16",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "id": "6720a9b1-44a2-4d84-8fc3-5bfc7d958e33",
+      "name": "Smart Thermal Shell",
+      "type": "thermal",
+      "structural_rating": 7,
+      "material": "Smart Glass",
+      "smart_enabled": true,
+      "description": "Thermally adaptive shell with embedded smart material responses."
+    },
+    {
+      "id": "aca21b66-9ebe-4414-b54f-c9a8fb42ed7e",
+      "name": "Bio-Composite Frame",
+      "type": "bio",
+      "structural_rating": 7,
+      "material": "Hemp Bio-Composite",
+      "smart_enabled": true,
+      "description": "Sustainable bio-composite framework using hemp fiber reinforcement."
+    },
+    {
+      "id": "1aa26918-61c3-4283-ac7b-57692ba0a31a",
+      "name": "Nano-Enhanced Panel",
+      "type": "nano",
+      "structural_rating": 9,
+      "material": "Graphene-Enhanced Polymer",
+      "smart_enabled": true,
+      "description": "Next-generation nano-enhanced panels with self-healing properties."
     }
   ],
-  "total_frameworks": 4,
-  "total_materials": 14,
-  "total_patents": 6
+  "materials": [
+    {
+      "id": "bb06e05e-c399-44ad-aa45-03406cb3b6d5",
+      "name": "High-Tensile Steel S355",
+      "category": "steel",
+      "grade": "A+",
+      "properties": {
+        "density": 3.97,
+        "recyclable": true
+      },
+      "strength": 663.0,
+      "thermal_conductivity": 42.14,
+      "embodied_carbon": 19.5,
+      "is_smart": false
+    },
+    {
+      "id": "90a697df-06e5-41bf-87fc-659246740c93",
+      "name": "Carbon Fiber Reinforced Polymer",
+      "category": "composite",
+      "grade": "A",
+      "properties": {
+        "density": 2.99,
+        "recyclable": true
+      },
+      "strength": 754.0,
+      "thermal_conductivity": 20.06,
+      "embodied_carbon": 2.1,
+      "is_smart": false
+    },
+    {
+      "id": "92938656-94e7-456e-a34d-1d3668f48644",
+      "name": "Aerogel Insulation Panel",
+      "category": "insulation",
+      "grade": "B+",
+      "properties": {
+        "density": 7.44,
+        "recyclable": false
+      },
+      "strength": 309.0,
+      "thermal_conductivity": 24.97,
+      "embodied_carbon": 22.2,
+      "is_smart": true
+    },
+    {
+      "id": "2bc8358a-2344-445a-b31c-cff092cfb3a5",
+      "name": "Ultra-High Performance Concrete",
+      "category": "concrete",
+      "grade": "B",
+      "properties": {
+        "density": 5.68,
+        "recyclable": true
+      },
+      "strength": 349.0,
+      "thermal_conductivity": 12.34,
+      "embodied_carbon": 14.3,
+      "is_smart": false
+    },
+    {
+      "id": "6391a18e-8f7b-41ef-9db5-a0291784d0ae",
+      "name": "Recycled HDPE Composite",
+      "category": "polymer",
+      "grade": "A+",
+      "properties": {
+        "density": 3.21,
+        "recyclable": false
+      },
+      "strength": 823.0,
+      "thermal_conductivity": 19.98,
+      "embodied_carbon": 5.9,
+      "is_smart": false
+    },
+    {
+      "id": "5f41ee2c-c9e0-4450-930e-a2ecaa2053b6",
+      "name": "Low-E Smart Glass",
+      "category": "glass",
+      "grade": "A",
+      "properties": {
+        "density": 7.98,
+        "recyclable": false
+      },
+      "strength": null,
+      "thermal_conductivity": 4.55,
+      "embodied_carbon": 1.7,
+      "is_smart": true
+    },
+    {
+      "id": "f3cdd21b-2be4-4a9a-a551-d21082afcf00",
+      "name": "Hemp-Lime Bio Panel",
+      "category": "bio-composite",
+      "grade": "A+",
+      "properties": {
+        "density": 2.21,
+        "recyclable": true
+      },
+      "strength": null,
+      "thermal_conductivity": 39.61,
+      "embodied_carbon": 10.8,
+      "is_smart": false
+    },
+    {
+      "id": "7caac556-17dc-4ff9-bf84-caeba0b96134",
+      "name": "Graphene Oxide Coating",
+      "category": "nano-material",
+      "grade": "A+",
+      "properties": {
+        "density": 1.91,
+        "recyclable": false
+      },
+      "strength": null,
+      "thermal_conductivity": 29.8,
+      "embodied_carbon": 12.0,
+      "is_smart": true
+    }
+  ],
+  "patents": [
+    {
+      "id": "e6150e99-3b1f-442b-b1b6-4767a261dd57",
+      "title": "Smart Container Thermal Regulation System",
+      "filing_date": "2025-09-09",
+      "status": "granted",
+      "description": "A thermal regulation system using phase-change materials embedded in container walls."
+    },
+    {
+      "id": "be73e045-beb9-4f64-bf62-ff1a1dccb893",
+      "title": "Self-Healing Composite Panel Method",
+      "filing_date": "2025-04-07",
+      "status": "pending",
+      "description": "Method for self-healing micro-cracks in composite building panels."
+    },
+    {
+      "id": "65d02492-f284-4579-8c41-ce264e9b6ee8",
+      "title": "Modular Frame Quick-Lock Mechanism",
+      "filing_date": "2026-01-10",
+      "status": "filed",
+      "description": "Quick-lock mechanism allowing rapid modular frame assembly without welding."
+    },
+    {
+      "id": "68551ce9-c5eb-4897-91ee-e39fb2c9b325",
+      "title": "AI-Optimized Structural Load Distribution",
+      "filing_date": "2025-02-01",
+      "status": "granted",
+      "description": "AI-driven system for optimizing load distribution across structural members."
+    },
+    {
+      "id": "7b6d2c5c-2536-4d27-b41b-36371bfa44c9",
+      "title": "Bio-Responsive Insulation Material",
+      "filing_date": "2025-01-11",
+      "status": "pending",
+      "description": "Insulation material that adapts thermal resistance based on ambient conditions."
+    }
+  ]
 }

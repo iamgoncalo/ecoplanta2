@@ -1,314 +1,189 @@
 {
-  "leads": [
+  "pipeline": [
     {
-      "id": "6e846725-a8b9-536c-b2a7-464857ab5824",
-      "name": "Vasco Freitas",
-      "email": "goncalovicente@example.org",
-      "company": "Grupo Pestana Hotels",
-      "status": "new",
-      "score": 54,
-      "opportunities": [],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "name": "Discovery",
+      "count": 12,
+      "value": 1200000
     },
     {
-      "id": "d523a3b8-af07-5f22-9664-79f52832c982",
-      "name": "Kevin Pacheco",
-      "email": "nicolemartins@example.com",
-      "company": "Sonae Sierra",
-      "status": "contacted",
-      "score": 41,
-      "opportunities": [],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "name": "Proposal",
+      "count": 8,
+      "value": 2400000
     },
     {
-      "id": "9ef04e7a-8320-50eb-adae-9ca03f928b60",
-      "name": "Lisa Hensley",
-      "email": "andrademariana@example.org",
-      "company": "CBRE Portugal",
-      "status": "qualified",
-      "score": 40,
-      "opportunities": [
-        {
-          "id": "315b1459-9fe2-5543-a625-7dc7148bdfd0",
-          "title": "Planta Smart Home - CBRE Portugal",
-          "value": 436096.79,
-          "stage": "closed_won",
-          "probability": 0.55,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "name": "Negotiation",
+      "count": 5,
+      "value": 1800000
     },
     {
-      "id": "f3be3c14-b062-5edd-b5d4-7a1e739db094",
-      "name": "Teresa Fernandes-Carneiro",
-      "email": "onelson@example.net",
-      "company": "Merlin Properties",
-      "status": "proposal",
-      "score": 91,
-      "opportunities": [
-        {
-          "id": "96a04cbd-09c8-518e-ab0a-9b690bce28fa",
-          "title": "Planta Smart Home - Merlin Properties",
-          "value": 400430.6,
-          "stage": "closed_won",
-          "probability": 0.93,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "name": "Won",
+      "count": 3,
+      "value": 950000
     },
     {
-      "id": "239eb031-a1fa-5ed1-bea1-5f582fba70bb",
-      "name": "Thomas Ellis",
-      "email": "johnhoffman@example.com",
-      "company": "Vanguard Properties",
-      "status": "negotiation",
-      "score": 27,
-      "opportunities": [
-        {
-          "id": "86e93eb2-b50b-5a0d-ba05-d243589cd93e",
-          "title": "Planta Smart Home - Vanguard Properties",
-          "value": 481306.5,
-          "stage": "discovery",
-          "probability": 0.65,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "8ba30901-9f1d-56ea-8f7b-cbb376a91f0b",
-      "name": "Zachary Rice",
-      "email": "sousafrancisca@example.com",
-      "company": "JLL Portugal",
-      "status": "won",
-      "score": 60,
-      "opportunities": [
-        {
-          "id": "aed41fcb-efc6-530c-94af-3ef989e60cfb",
-          "title": "Planta Smart Home - JLL Portugal",
-          "value": 179122.65,
-          "stage": "negotiation",
-          "probability": 0.58,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "9d3f6d15-0a31-5aff-b07b-163ac0d4806f",
-      "name": "Luísa Alves",
-      "email": "renato30@example.org",
-      "company": "Habitat Invest",
-      "status": "new",
-      "score": 47,
-      "opportunities": [],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "78b6653c-4706-5735-97d6-5418b3507809",
-      "name": "Victória Vaz-Sá",
-      "email": "alice57@example.net",
-      "company": "Square Asset Management",
-      "status": "contacted",
-      "score": 60,
-      "opportunities": [],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "522f074e-c4c9-568f-a7a5-96c322a8ad66",
-      "name": "Ariana Nascimento",
-      "email": "matilde73@example.net",
-      "company": "Explorer Investments",
-      "status": "qualified",
-      "score": 70,
-      "opportunities": [
-        {
-          "id": "a178b0a5-bc26-56f4-bdc1-24af4e8e16af",
-          "title": "Planta Smart Home - Explorer Investments",
-          "value": 625522.44,
-          "stage": "discovery",
-          "probability": 0.87,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "fa5ebc91-e972-551f-8f40-d310cdafd691",
-      "name": "Kevin Vaz",
-      "email": "wrightjames@example.com",
-      "company": "Norfin SGFII",
-      "status": "proposal",
-      "score": 37,
-      "opportunities": [
-        {
-          "id": "7b7591e2-fce3-53db-9de9-993f6629e3fa",
-          "title": "Planta Smart Home - Norfin SGFII",
-          "value": 523839.97,
-          "stage": "closed_lost",
-          "probability": 0.63,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "e475aa57-4fea-5253-adcf-9a6bac388050",
-      "name": "Vítor Faria",
-      "email": "emoreira@example.org",
-      "company": "Avenue Real Estate",
-      "status": "negotiation",
-      "score": 88,
-      "opportunities": [
-        {
-          "id": "ee24bb47-b4d7-5785-b987-e3695628be95",
-          "title": "Planta Smart Home - Avenue Real Estate",
-          "value": 566084.75,
-          "stage": "negotiation",
-          "probability": 0.63,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "2b1c552d-73fe-5e66-a0d2-1d3f33fe28d3",
-      "name": "Ângela Anjos",
-      "email": "brianromero@example.org",
-      "company": "Kronos Real Estate",
-      "status": "won",
-      "score": 74,
-      "opportunities": [
-        {
-          "id": "f33f4a39-c759-5236-ac5c-4916b9e53c4d",
-          "title": "Planta Smart Home - Kronos Real Estate",
-          "value": 318174.34,
-          "stage": "proposal",
-          "probability": 0.41,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "70d40b67-04cc-5588-9049-cce5dc64f030",
-      "name": "Christina Moran",
-      "email": "alexandra24@example.com",
-      "company": "Nexity Portugal",
-      "status": "new",
-      "score": 48,
-      "opportunities": [],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "13abc764-5bd1-5621-98e4-0504e17aa05c",
-      "name": "Victoria Valdez",
-      "email": "mariana12@example.com",
-      "company": "Libertas Group",
-      "status": "contacted",
-      "score": 31,
-      "opportunities": [],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "fe5c36d3-b6ce-502b-a4dc-80ff6c232716",
-      "name": "Rui Martins",
-      "email": "smithkellie@example.net",
-      "company": "Telhabel Construcoes",
-      "status": "qualified",
-      "score": 39,
-      "opportunities": [
-        {
-          "id": "fc5671ba-60bf-5c48-a669-356507a2ca75",
-          "title": "Planta Smart Home - Telhabel Construcoes",
-          "value": 437440.63,
-          "stage": "discovery",
-          "probability": 0.62,
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "name": "Lost",
+      "count": 2,
+      "value": 320000
     }
   ],
-  "pipeline": {
-    "total_leads": 15,
-    "qualified_leads": 9,
-    "total_pipeline_value": 3968018.67,
-    "weighted_pipeline_value": 2661515.82,
-    "avg_deal_size": 440890.96
-  }
+  "leads": [
+    {
+      "id": "f50a481d-d969-471c-9079-f6b5a1fc7c2e",
+      "company": "Porto Housing Corp",
+      "contact": "Ana Silva",
+      "score": 98,
+      "stage": "Discovery",
+      "value": 443676,
+      "last_activity": "2026-02-06"
+    },
+    {
+      "id": "7dda6e91-a22a-45a4-bfed-d78722e49934",
+      "company": "Lisboa Green Builds",
+      "contact": "Miguel Santos",
+      "score": 44,
+      "stage": "Negotiation",
+      "value": 203878,
+      "last_activity": "2026-02-01"
+    },
+    {
+      "id": "b3e277a8-9d72-4b04-9c28-ade0c620de2b",
+      "company": "Algarve Eco Villas",
+      "contact": "Sofia Pereira",
+      "score": 88,
+      "stage": "Proposal",
+      "value": 51701,
+      "last_activity": "2026-01-15"
+    },
+    {
+      "id": "0d34b0d4-72c9-4254-b3bf-a08d7d91aaa2",
+      "company": "Barcelona Modular SA",
+      "contact": "Carlos Rodriguez",
+      "score": 94,
+      "stage": "Negotiation",
+      "value": 449487,
+      "last_activity": "2026-02-09"
+    },
+    {
+      "id": "0ca94379-2dc6-4d01-83c1-9b13f409967e",
+      "company": "Amsterdam Living Labs",
+      "contact": "Jan de Vries",
+      "score": 68,
+      "stage": "Discovery",
+      "value": 491277,
+      "last_activity": "2026-01-25"
+    },
+    {
+      "id": "0e2678a2-8ba0-4bc9-a0ed-1a4670744143",
+      "company": "Berlin Container GmbH",
+      "contact": "Klaus Schmidt",
+      "score": 49,
+      "stage": "Proposal",
+      "value": 246038,
+      "last_activity": "2026-01-21"
+    },
+    {
+      "id": "81f46598-68fe-487f-b5c8-98e9675dad1d",
+      "company": "Milano Smart Homes",
+      "contact": "Lucia Rossi",
+      "score": 97,
+      "stage": "Proposal",
+      "value": 50299,
+      "last_activity": "2026-01-26"
+    },
+    {
+      "id": "8d02c875-c765-493c-b4b6-ec84e14c969b",
+      "company": "Warsaw Urban Dev",
+      "contact": "Anna Kowalska",
+      "score": 92,
+      "stage": "Negotiation",
+      "value": 60211,
+      "last_activity": "2026-02-11"
+    },
+    {
+      "id": "52dc4c71-035e-4579-9a24-5c50747d262d",
+      "company": "Vienna Eco-Build",
+      "contact": "Fritz Weber",
+      "score": 69,
+      "stage": "Negotiation",
+      "value": 175541,
+      "last_activity": "2026-02-13"
+    },
+    {
+      "id": "84013e66-e13c-498e-abe0-92617ea7f010",
+      "company": "Paris Green Quarter",
+      "contact": "Marie Dupont",
+      "score": 40,
+      "stage": "Proposal",
+      "value": 94907,
+      "last_activity": "2026-01-22"
+    }
+  ],
+  "metrics": {
+    "total_revenue": 950000,
+    "conversion_rate": 10.0,
+    "avg_deal_size": 222333.0,
+    "pipeline_value": 6670000
+  },
+  "revenue_chart": [
+    {
+      "month": "Jan",
+      "revenue": 277399,
+      "target": 218143
+    },
+    {
+      "month": "Feb",
+      "revenue": 349387,
+      "target": 339645
+    },
+    {
+      "month": "Mar",
+      "revenue": 350758,
+      "target": 232967
+    },
+    {
+      "month": "Apr",
+      "revenue": 183657,
+      "target": 324592
+    },
+    {
+      "month": "May",
+      "revenue": 398210,
+      "target": 344127
+    },
+    {
+      "month": "Jun",
+      "revenue": 193287,
+      "target": 269483
+    },
+    {
+      "month": "Jul",
+      "revenue": 288326,
+      "target": 310923
+    },
+    {
+      "month": "Aug",
+      "revenue": 205521,
+      "target": 341373
+    },
+    {
+      "month": "Sep",
+      "revenue": 347988,
+      "target": 252730
+    },
+    {
+      "month": "Oct",
+      "revenue": 336895,
+      "target": 281714
+    },
+    {
+      "month": "Nov",
+      "revenue": 254593,
+      "target": 297889
+    },
+    {
+      "month": "Dec",
+      "revenue": 264845,
+      "target": 335679
+    }
+  ]
 }

@@ -1,33 +1,124 @@
 {
   "deliveries": [
     {
-      "id": "d5a9a104-d264-5302-8050-8fa5db476e95",
-      "origin": "Figueira da Foz, Portugal",
+      "id": "a051d4f3-32d4-45e8-9299-7985e156fa58",
+      "destination": "Porto, Portugal",
+      "status": "in_transit",
+      "eta": "2026-02-23",
+      "progress": 40,
+      "items": 23
+    },
+    {
+      "id": "80e8461c-6844-49e5-9beb-eb40a10765b9",
       "destination": "Lisboa, Portugal",
-      "carrier": "Transporte Modular EU",
+      "status": "delivered",
+      "eta": "2026-03-02",
+      "progress": 100,
+      "items": 8
+    },
+    {
+      "id": "d53afd74-13bf-421c-8ae9-8ae72d8c721e",
+      "destination": "Faro, Portugal",
+      "status": "in_transit",
+      "eta": "2026-02-19",
+      "progress": 79,
+      "items": 20
+    },
+    {
+      "id": "e5d751cb-6219-47d2-98b3-8bcb26aeaa88",
+      "destination": "Barcelona, Spain",
       "status": "preparing",
-      "estimated_arrival": "2026-12-20T07:45:00+00:00",
-      "actual_arrival": "2026-12-20T07:45:00+00:00",
-      "deployment_jobs": [
-        {
-          "id": "43367fd8-c6d6-5f86-bd28-11e27caea94e",
-          "site_address": "Lisboa, Portugal",
-          "status": "site_prep",
-          "commissioning_date": "2025-12-25",
-          "crew_lead": "Mestre Carlos Mendes",
-          "source": "synthetic_seeded",
-          "source_id": "seed-42",
-          "created_at": "2025-06-01T12:00:00+00:00",
-          "updated_at": "2025-06-01T12:00:00+00:00"
-        }
-      ],
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "eta": "2026-03-02",
+      "progress": 83,
+      "items": 9
+    },
+    {
+      "id": "0699b6b9-aada-4706-8761-64e3d08ef2e6",
+      "destination": "Madrid, Spain",
+      "status": "delivered",
+      "eta": "2026-03-12",
+      "progress": 100,
+      "items": 17
+    },
+    {
+      "id": "4e51dabd-159e-4b58-b281-ac359dc4f2cb",
+      "destination": "Amsterdam, Netherlands",
+      "status": "in_transit",
+      "eta": "2026-02-21",
+      "progress": 62,
+      "items": 5
+    },
+    {
+      "id": "1bd0b869-a862-4abc-af32-53891d1ebaf5",
+      "destination": "Berlin, Germany",
+      "status": "preparing",
+      "eta": "2026-03-08",
+      "progress": 22,
+      "items": 15
+    },
+    {
+      "id": "e41cf679-3e8d-440f-94f2-3c6967c59969",
+      "destination": "Milano, Italy",
+      "status": "delivered",
+      "eta": "2026-02-26",
+      "progress": 100,
+      "items": 15
     }
   ],
-  "total_deliveries": 1,
-  "in_transit": 0,
-  "delivered": 0
+  "jobs": [
+    {
+      "id": "f3b60fd7-ea87-4e2f-ac26-99e8309a9b23",
+      "site": "Site A - Porto Norte",
+      "type": "installation",
+      "status": "active",
+      "started": "2026-01-31",
+      "team": "Alpha"
+    },
+    {
+      "id": "370e2a87-d44f-49c5-a576-065342713408",
+      "site": "Site B - Lisboa Centro",
+      "type": "commissioning",
+      "status": "completed",
+      "started": "2026-01-30",
+      "team": "Bravo"
+    },
+    {
+      "id": "b2265578-a4ba-43e7-ae2f-d78adb6c2dcd",
+      "site": "Site C - Faro Sul",
+      "type": "inspection",
+      "status": "active",
+      "started": "2026-01-17",
+      "team": "Charlie"
+    },
+    {
+      "id": "b65d2ec0-501d-4c0e-b7b3-da867b44cf9f",
+      "site": "Site D - Barcelona Este",
+      "type": "handover",
+      "status": "pending",
+      "started": "2026-01-21",
+      "team": "Delta"
+    },
+    {
+      "id": "c7a28c6f-01e1-4886-b035-cb20660a2c1d",
+      "site": "Site E - Amsterdam West",
+      "type": "installation",
+      "status": "active",
+      "started": "2026-02-12",
+      "team": "Echo"
+    },
+    {
+      "id": "bb65e1c0-4ea6-4c65-9fd3-b72f57fc8181",
+      "site": "Site F - Berlin Mitte",
+      "type": "commissioning",
+      "status": "completed",
+      "started": "2026-01-23",
+      "team": "Foxtrot"
+    }
+  ],
+  "metrics": {
+    "active_deliveries": 8,
+    "in_transit": 3,
+    "active_sites": 3,
+    "completed": 3
+  }
 }

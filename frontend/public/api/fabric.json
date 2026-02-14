@@ -1,63 +1,118 @@
 {
   "production_lines": [
     {
-      "id": "2b75a7b3-27ca-5fc3-8ed0-e493b7d291a9",
-      "name": "Line A - CLT Assembly",
-      "location": "Figueira da Foz, Portugal",
-      "capacity_units_per_day": 3,
-      "status": "idle",
-      "current_workorder_id": null,
-      "active_work_orders": 0,
-      "total_work_orders": 2,
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "709a0195-9781-535c-b66b-eddb28d49994",
-      "name": "Line B - Steel Framing",
-      "location": "Figueira da Foz, Portugal",
-      "capacity_units_per_day": 2,
-      "status": "idle",
-      "current_workorder_id": null,
-      "active_work_orders": 2,
-      "total_work_orders": 2,
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
-    },
-    {
-      "id": "46bd7310-8e67-54a0-9814-6b3f994be23c",
-      "name": "Line C - Module Integration",
-      "location": "Figueira da Foz, Portugal",
-      "capacity_units_per_day": 4,
+      "id": "8a6abf5c-bd49-47cf-9141-0ebd9a1f216a",
+      "name": "Line A",
       "status": "running",
-      "current_workorder_id": null,
-      "active_work_orders": 1,
-      "total_work_orders": 1,
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "throughput": 43,
+      "efficiency": 88.6,
+      "product": "EcoContainer 20ft"
     },
     {
-      "id": "d52c8348-519d-5c55-8ec4-155b357f797d",
-      "name": "Line D - Smart Systems Install",
-      "location": "Figueira da Foz, Portugal",
-      "capacity_units_per_day": 5,
+      "id": "151de44f-bc6b-4f0d-965d-42b94519314c",
+      "name": "Line B",
+      "status": "idle",
+      "throughput": 71,
+      "efficiency": 91.3,
+      "product": "EcoContainer 40ft"
+    },
+    {
+      "id": "1e08ded4-d10f-43ad-8e67-525b9d21254f",
+      "name": "Line C",
+      "status": "maintenance",
+      "throughput": 53,
+      "efficiency": 77.8,
+      "product": "Planta Module A"
+    },
+    {
+      "id": "24f9e873-5a01-42fc-b4ba-6de8b3e5de6f",
+      "name": "Line D",
       "status": "running",
-      "current_workorder_id": null,
-      "active_work_orders": 0,
-      "total_work_orders": 1,
-      "source": "synthetic_seeded",
-      "source_id": "seed-42",
-      "created_at": "2025-06-01T12:00:00+00:00",
-      "updated_at": "2025-06-01T12:00:00+00:00"
+      "throughput": 109,
+      "efficiency": 89.6,
+      "product": "Planta Module B"
+    },
+    {
+      "id": "109734f9-2e43-4fd6-9f14-897a7c92d35d",
+      "name": "Line E",
+      "status": "running",
+      "throughput": 94,
+      "efficiency": 74.3,
+      "product": "EcoContainer HQ"
     }
   ],
-  "total_lines": 4,
-  "lines_running": 2,
-  "total_work_orders": 6
+  "work_orders": [
+    {
+      "id": "3f0172f3-e1d2-4a9c-b87d-085fe4ddaba1",
+      "product": "EcoContainer 20ft",
+      "quantity": 3,
+      "status": "in_progress",
+      "due_date": "2026-02-22",
+      "priority": "high"
+    },
+    {
+      "id": "91edf406-74f0-4fb6-aff7-0617b8a9cac2",
+      "product": "EcoContainer 40ft",
+      "quantity": 34,
+      "status": "scheduled",
+      "due_date": "2026-03-27",
+      "priority": "high"
+    },
+    {
+      "id": "823cd318-481b-4d1d-b137-7b50b22a2d16",
+      "product": "EcoContainer HQ",
+      "quantity": 14,
+      "status": "completed",
+      "due_date": "2026-03-30",
+      "priority": "low"
+    },
+    {
+      "id": "22d48a67-43da-4632-8aed-024eaba15dfe",
+      "product": "EcoContainer HQ",
+      "quantity": 28,
+      "status": "in_progress",
+      "due_date": "2026-03-03",
+      "priority": "medium"
+    },
+    {
+      "id": "b89164b1-2cc2-4b6e-b3ff-a2d4cfb8bc28",
+      "product": "EcoContainer HQ",
+      "quantity": 19,
+      "status": "scheduled",
+      "due_date": "2026-02-17",
+      "priority": "high"
+    },
+    {
+      "id": "38351fe4-5a8e-4db6-80c1-708bd144ac8a",
+      "product": "Planta Module B",
+      "quantity": 23,
+      "status": "completed",
+      "due_date": "2026-03-06",
+      "priority": "high"
+    },
+    {
+      "id": "4fae27a4-ba43-41aa-8808-6db7fd172d9b",
+      "product": "EcoContainer 40ft",
+      "quantity": 50,
+      "status": "in_progress",
+      "due_date": "2026-03-10",
+      "priority": "high"
+    },
+    {
+      "id": "812d4a38-fdc5-4adb-a96a-1f42489f4994",
+      "product": "EcoContainer 20ft",
+      "quantity": 26,
+      "status": "scheduled",
+      "due_date": "2026-02-23",
+      "priority": "medium"
+    }
+  ],
+  "metrics": {
+    "active_lines": 3,
+    "avg_efficiency": 84.3,
+    "total_throughput": 370,
+    "open_orders": 6,
+    "lines_change": 1,
+    "efficiency_change": 2.3
+  }
 }
