@@ -437,9 +437,12 @@ class SeedGenerator:
             "Libertas Group",
             "Telhabel Construcoes",
         ]
+        regions = ["Lisboa", "Porto", "Algarve", "Centro", "Norte", "Alentejo"]
         items = []
         for i in range(count):
             status = statuses[i % len(statuses)]
+            region = regions[i % len(regions)]
+            value = round(self._rng.uniform(120_000, 650_000), 2)
             items.append(
                 {
                     "id": self._deterministic_uuid("lead", i),
@@ -450,6 +453,8 @@ class SeedGenerator:
                     "status": status,
                     "score": self._rng.randint(20, 95),
                     "assigned_to": self.fake.name(),
+                    "region": region,
+                    "pipeline_value": value,
                     "notes": f"Interested in Planta Smart Homes {self._rng.choice(['T1', 'T3', 'T4+', 'Studio', 'Duplex'])} model.",
                     **self._provenance(),
                 }
@@ -461,7 +466,7 @@ class SeedGenerator:
     # ═══════════════════════════════════════════════════════════════════════════
 
     def generate_opportunities(self, leads: list[dict]) -> list[dict[str, Any]]:
-        stages = ["discovery", "proposal", "negotiation", "closed_won"]
+        stages = ["discovery", "proposal", "negotiation", "closed_won", "closed_lost"]
         items = []
         for i, lead in enumerate(leads):
             if lead["status"] in ("qualified", "proposal", "negotiation", "won"):

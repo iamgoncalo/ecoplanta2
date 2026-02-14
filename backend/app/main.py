@@ -3,13 +3,23 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import structlog
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, deploy, fabric, frameworks, health, intelligence, partners, sales
+from app.api.routes import (
+    auth,
+    deploy,
+    fabric,
+    factory,
+    frameworks,
+    health,
+    intelligence,
+    partners,
+    sales,
+)
 from app.core.config import settings
 from app.core.logging import setup_logging
 
@@ -75,7 +85,7 @@ def create_app() -> FastAPI:
 
     # ── Security headers middleware ───────────────────────────────────
     @app.middleware("http")
-    async def security_headers(request: Request, call_next) -> Response:  # type: ignore[type-arg]
+    async def security_headers(request: Request, call_next: Any) -> Response:
         response: Response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
@@ -88,6 +98,7 @@ def create_app() -> FastAPI:
     app.include_router(health.router)
     app.include_router(auth.router)
     app.include_router(fabric.router)
+    app.include_router(factory.router)
     app.include_router(frameworks.router)
     app.include_router(sales.router)
     app.include_router(intelligence.router)

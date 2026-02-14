@@ -70,6 +70,68 @@ export function fetchFabric(): Promise<FabricResponse> {
   return request<FabricResponse>("/api/fabric");
 }
 
+/* ---- Factory (extended) ---- */
+
+export interface BomItem {
+  material: string;
+  quantity: number;
+  unit: string;
+  unit_cost: number;
+}
+
+export interface QARecord {
+  id: string;
+  work_order_id: string;
+  inspector: string;
+  result: string;
+  defects: string[];
+  date: string;
+}
+
+export interface WorkOrderDetail extends WorkOrder {
+  bom: BomItem[];
+  qa_records: QARecord[];
+}
+
+export function fetchWorkOrders(): Promise<{ work_orders: WorkOrder[] }> {
+  return request<{ work_orders: WorkOrder[] }>("/api/factory/workorders");
+}
+
+export function fetchWorkOrder(id: string): Promise<WorkOrderDetail> {
+  return request<WorkOrderDetail>(`/api/factory/workorders/${id}`);
+}
+
+export interface InventoryItem {
+  id: string;
+  material: string;
+  quantity: number;
+  unit: string;
+  reorder_level: number;
+  status: string;
+}
+
+export interface InventoryResponse {
+  items: InventoryItem[];
+  alerts: { material: string; message: string; severity: string }[];
+}
+
+export function fetchInventory(): Promise<InventoryResponse> {
+  return request<InventoryResponse>("/api/factory/inventory");
+}
+
+export interface QAResponse {
+  records: QARecord[];
+  summary: {
+    total_inspections: number;
+    pass_rate: number;
+    common_defects: { defect: string; count: number }[];
+  };
+}
+
+export function fetchQARecords(): Promise<QAResponse> {
+  return request<QAResponse>("/api/factory/qa");
+}
+
 /* ---- Fabric Scene ---- */
 
 export interface SceneObject {
@@ -170,6 +232,44 @@ export function fetchSales(): Promise<SalesResponse> {
   return request<SalesResponse>("/api/sales");
 }
 
+export interface PipelineStats {
+  stages: PipelineStage[];
+  conversions: { from: string; to: string; rate: number }[];
+  territories: {
+    region: string;
+    lead_count: number;
+    value: number;
+  }[];
+}
+
+export function fetchSalesPipeline(): Promise<PipelineStats> {
+  return request<PipelineStats>("/api/sales/pipeline/stats");
+}
+
+export interface CreateLeadPayload {
+  company: string;
+  contact: string;
+  value: number;
+  stage?: string;
+}
+
+export function createLead(data: CreateLeadPayload): Promise<Lead> {
+  return request<Lead>("/api/sales/leads", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateLeadStage(
+  id: string,
+  stage: string,
+): Promise<Lead> {
+  return request<Lead>(`/api/sales/leads/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ stage }),
+  });
+}
+
 /* ---- Intelligence ---- */
 
 export interface InsightReport {
@@ -233,6 +333,51 @@ export interface DeployResponse {
 
 export function fetchDeploy(): Promise<DeployResponse> {
   return request<DeployResponse>("/api/deploy");
+}
+
+export interface ScheduledDelivery {
+  id: string;
+  date: string;
+  destination: string;
+  items: number;
+  status: string;
+}
+
+export interface DeliveryScheduleResponse {
+  scheduled: ScheduledDelivery[];
+}
+
+export function fetchDeliverySchedule(): Promise<DeliveryScheduleResponse> {
+  return request<DeliveryScheduleResponse>("/api/deploy/schedule");
+}
+
+export interface ChecklistItem {
+  id: string;
+  label: string;
+  completed: boolean;
+}
+
+export interface CommissioningJob {
+  id: string;
+  site: string;
+  status: string;
+  started: string;
+  checklist: ChecklistItem[];
+  progress: number;
+}
+
+export interface CommissioningResponse {
+  jobs: CommissioningJob[];
+  summary: {
+    total: number;
+    pending: number;
+    in_progress: number;
+    completed: number;
+  };
+}
+
+export function fetchCommissioning(): Promise<CommissioningResponse> {
+  return request<CommissioningResponse>("/api/deploy/commissioning");
 }
 
 /* ---- Partners ---- */

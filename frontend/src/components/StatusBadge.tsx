@@ -52,7 +52,10 @@ export function statusToVariant(status: string): BadgeVariant {
     s.includes("new") ||
     s.includes("qualified") ||
     s.includes("scheduled") ||
-    s.includes("smart")
+    s.includes("smart") ||
+    s.includes("planned") ||
+    s.includes("discovery") ||
+    s.includes("proposal")
   )
     return "info";
   return "neutral";

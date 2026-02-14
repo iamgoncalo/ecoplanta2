@@ -19,12 +19,12 @@ _pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(password: str) -> str:
     """Return a bcrypt hash of *password*."""
-    return _pwd_ctx.hash(password)
+    return str(_pwd_ctx.hash(password))
 
 
 def verify_password(plain: str, hashed: str) -> bool:
     """Verify *plain* text against a bcrypt *hashed* value."""
-    return _pwd_ctx.verify(plain, hashed)
+    return bool(_pwd_ctx.verify(plain, hashed))
 
 
 # ── JWT tokens ────────────────────────────────────────────────────────────────
@@ -40,10 +40,12 @@ def create_access_token(data: dict[str, Any]) -> str:
         minutes=settings.AUTH_ACCESS_TOKEN_EXPIRE_MINUTES,
     )
     to_encode.update({"exp": expire})
-    return jwt.encode(
-        to_encode,
-        settings.AUTH_SECRET_KEY,
-        algorithm=settings.AUTH_ALGORITHM,
+    return str(
+        jwt.encode(
+            to_encode,
+            settings.AUTH_SECRET_KEY,
+            algorithm=settings.AUTH_ALGORITHM,
+        )
     )
 
 
