@@ -17,7 +17,10 @@ from app.api.routes import (
     frameworks,
     health,
     intelligence,
+    materials,
+    ml,
     partners,
+    patents,
     sales,
 )
 from app.core.config import settings
@@ -100,8 +103,11 @@ def create_app() -> FastAPI:
     app.include_router(fabric.router)
     app.include_router(factory.router)
     app.include_router(frameworks.router)
+    app.include_router(materials.router)
+    app.include_router(patents.router)
     app.include_router(sales.router)
     app.include_router(intelligence.router)
+    app.include_router(ml.router)
     app.include_router(deploy.router)
     app.include_router(partners.router)
 

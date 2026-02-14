@@ -65,14 +65,17 @@ def test_entity_counts() -> None:
     data = gen.generate_all()
 
     assert len(data["suppliers"]) == 8
-    assert len(data["materials"]) == 12
+    assert len(data["materials"]) == 14
     assert len(data["house_configs"]) == 6
     assert len(data["frameworks"]) == 4
     assert len(data["patents"]) == 6
     assert len(data["leads"]) == 15
     assert len(data["production_lines"]) == 4
-    assert len(data["partners"]) == 6
+    assert len(data["partners"]) == 8
     assert len(data["insight_reports"]) == 8
+    assert len(data["partner_quotes"]) > 0
+    assert len(data["time_series_data"]) > 0
+    assert len(data["qa_outlier_records"]) > 0
     # Dependent entities should have at least some records
     assert len(data["opportunities"]) > 0
     assert len(data["boms"]) > 0

@@ -170,6 +170,21 @@ export interface Material {
   category: string;
   grade: string;
   properties: Record<string, unknown>;
+  strength?: number;
+  thermal_conductivity?: number;
+  embodied_carbon?: number;
+  is_smart?: boolean;
+}
+
+export interface MaterialDetail extends Material {
+  description?: string;
+  applications?: string[];
+  certifications?: string[];
+}
+
+export interface MaterialComparison {
+  materials: MaterialDetail[];
+  comparison_fields: string[];
 }
 
 export interface Patent {
@@ -180,6 +195,13 @@ export interface Patent {
   description: string;
 }
 
+export interface PatentDetail extends Patent {
+  claims_summary?: string;
+  experiment_results?: string;
+  novelty_notes?: string;
+  inventors?: string[];
+}
+
 export interface FrameworksResponse {
   frameworks: Framework[];
   materials: Material[];
@@ -188,6 +210,50 @@ export interface FrameworksResponse {
 
 export function fetchFrameworks(): Promise<FrameworksResponse> {
   return request<FrameworksResponse>("/api/frameworks");
+}
+
+export interface MaterialFilters {
+  category?: string;
+  grade?: string;
+  smart_only?: boolean;
+  search?: string;
+}
+
+export function fetchMaterials(
+  filters?: MaterialFilters,
+): Promise<{ materials: Material[] }> {
+  const params = new URLSearchParams();
+  if (filters?.category) params.set("category", filters.category);
+  if (filters?.grade) params.set("grade", filters.grade);
+  if (filters?.smart_only) params.set("smart_only", "true");
+  if (filters?.search) params.set("search", filters.search);
+  const qs = params.toString();
+  return request<{ materials: Material[] }>(
+    `/api/materials${qs ? `?${qs}` : ""}`,
+  );
+}
+
+export function fetchMaterialDetail(id: string): Promise<MaterialDetail> {
+  return request<MaterialDetail>(`/api/materials/${id}`);
+}
+
+export function compareMaterials(
+  ids: string[],
+): Promise<MaterialComparison> {
+  const qs = ids.map((id) => `ids=${encodeURIComponent(id)}`).join("&");
+  return request<MaterialComparison>(`/api/materials/compare?${qs}`);
+}
+
+export function fetchSmartMaterials(): Promise<{ materials: Material[] }> {
+  return request<{ materials: Material[] }>("/api/materials/smart");
+}
+
+export function fetchPatents(): Promise<{ patents: Patent[] }> {
+  return request<{ patents: Patent[] }>("/api/patents");
+}
+
+export function fetchPatentDetail(id: string): Promise<PatentDetail> {
+  return request<PatentDetail>(`/api/patents/${id}`);
 }
 
 /* ---- Sales ---- */
@@ -285,6 +351,8 @@ export interface ForecastDataPoint {
   period: string;
   actual: number | null;
   forecast: number;
+  lower_bound?: number;
+  upper_bound?: number;
 }
 
 export interface KpiMetric {
@@ -303,6 +371,77 @@ export interface IntelligenceResponse {
 
 export function fetchIntelligence(): Promise<IntelligenceResponse> {
   return request<IntelligenceResponse>("/api/intelligence");
+}
+
+export interface MLModel {
+  id: string;
+  name: string;
+  type: string;
+  status: string;
+  accuracy?: number;
+  metric_value?: number;
+  metric_name?: string;
+  last_trained?: string;
+  description?: string;
+}
+
+export interface ModelsResponse {
+  models: MLModel[];
+}
+
+export function fetchModels(): Promise<ModelsResponse> {
+  return request<ModelsResponse>("/api/intelligence/models");
+}
+
+export interface LeadTimeForecast {
+  data_points: ForecastDataPoint[];
+  model_name?: string;
+  confidence_level?: number;
+}
+
+export function runForecast(): Promise<LeadTimeForecast> {
+  return request<LeadTimeForecast>("/api/intelligence/forecast", {
+    method: "POST",
+  });
+}
+
+export interface AnomalyPoint {
+  id: string;
+  x: number;
+  y: number;
+  is_anomaly: boolean;
+  label?: string;
+  work_order_id?: string;
+  severity?: string;
+}
+
+export interface AnomalyDetectionResult {
+  points: AnomalyPoint[];
+  total_anomalies: number;
+  affected_work_orders: number;
+  summary?: string;
+}
+
+export function detectAnomalies(): Promise<AnomalyDetectionResult> {
+  return request<AnomalyDetectionResult>("/api/intelligence/anomaly-detect", {
+    method: "POST",
+  });
+}
+
+export interface FeatureEntry {
+  name: string;
+  type: string;
+  description: string;
+  source?: string;
+  updated?: string;
+}
+
+export interface FeatureStoreResponse {
+  features: FeatureEntry[];
+}
+
+export function fetchFeatureStore(): Promise<FeatureStoreResponse> {
+  return request<FeatureStoreResponse>("/api/intelligence/feature-store");
 }
 
 /* ---- Deploy ---- */
@@ -387,10 +526,19 @@ export interface Partner {
   name: string;
   type: string;
   region: string;
+  country?: string;
   capacity_utilization: number;
+  capacity?: number;
   compliance_status: string;
   active_projects: number;
   rating: number;
+  lead_time?: number;
+}
+
+export interface PartnerDetail extends Partner {
+  contact_email?: string;
+  certifications?: string[];
+  monthly_utilization?: { month: string; utilization: number }[];
 }
 
 export interface PartnersResponse {
@@ -400,6 +548,71 @@ export interface PartnersResponse {
 
 export function fetchPartners(): Promise<PartnersResponse> {
   return request<PartnersResponse>("/api/partners");
+}
+
+export function fetchPartnerDetail(id: string): Promise<PartnerDetail> {
+  return request<PartnerDetail>(`/api/partners/${id}`);
+}
+
+export interface AllocateOrderPayload {
+  order_id?: string;
+  product?: string;
+  quantity?: number;
+  requirements?: string[];
+}
+
+export interface AllocationResult {
+  allocations: {
+    partner_id: string;
+    partner_name: string;
+    quantity: number;
+    reasoning: string;
+    estimated_lead_time?: number;
+  }[];
+}
+
+export function allocateOrder(
+  data: AllocateOrderPayload,
+): Promise<AllocationResult> {
+  return request<AllocationResult>("/api/partners/allocate", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export interface OptimizationResult {
+  allocations: {
+    partner_id: string;
+    partner_name: string;
+    orders: string[];
+    utilization: number;
+    reasoning: string;
+  }[];
+  total_cost_savings?: number;
+  optimization_score?: number;
+}
+
+export function runOptimization(): Promise<OptimizationResult> {
+  return request<OptimizationResult>("/api/partners/optimize");
+}
+
+export interface ComplianceRecord {
+  partner_id: string;
+  partner_name: string;
+  ce_mark: boolean;
+  iso_9001: boolean;
+  iso_14001: boolean;
+  en_1090: boolean;
+  last_audit?: string;
+  notes?: string;
+}
+
+export interface ComplianceResponse {
+  records: ComplianceRecord[];
+}
+
+export function fetchCompliance(): Promise<ComplianceResponse> {
+  return request<ComplianceResponse>("/api/partners/compliance");
 }
 
 /* ---- User ---- */

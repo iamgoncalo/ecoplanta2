@@ -103,6 +103,7 @@ class SeedGenerator:
     # ═══════════════════════════════════════════════════════════════════════════
 
     def generate_materials(self, suppliers: list[dict]) -> list[dict[str, Any]]:
+        # Validate: NO LSF, NO weak materials in this list
         high_quality_materials = [
             {
                 "name": "Cross-Laminated Timber (CLT) Grade C24",
@@ -117,7 +118,7 @@ class SeedGenerator:
             },
             {
                 "name": "Ultra-High Performance Concrete (UHPC)",
-                "category": "concrete",
+                "category": "smart_concrete",
                 "grade": "UHPC-150",
                 "density": 2500.0,
                 "tensile_strength": 150.0,
@@ -128,7 +129,7 @@ class SeedGenerator:
             },
             {
                 "name": "Aerogel Insulation Panel",
-                "category": "insulation",
+                "category": "insulation_aerogel",
                 "grade": "AeroTherm-Pro",
                 "density": 150.0,
                 "tensile_strength": 8.0,
@@ -139,7 +140,7 @@ class SeedGenerator:
             },
             {
                 "name": "Triple-Glazed Smart Glass",
-                "category": "glazing",
+                "category": "smart_glass",
                 "grade": "SmartView-3X",
                 "density": 2500.0,
                 "tensile_strength": 120.0,
@@ -150,7 +151,7 @@ class SeedGenerator:
             },
             {
                 "name": "Phase-Change Material Wallboard",
-                "category": "thermal_storage",
+                "category": "phase_change_material",
                 "grade": "PCM-23",
                 "density": 850.0,
                 "tensile_strength": 15.0,
@@ -161,7 +162,7 @@ class SeedGenerator:
             },
             {
                 "name": "High-Strength Structural Steel S460",
-                "category": "steel",
+                "category": "structural_steel",
                 "grade": "S460ML",
                 "density": 7850.0,
                 "tensile_strength": 540.0,
@@ -172,7 +173,7 @@ class SeedGenerator:
             },
             {
                 "name": "Self-Healing Bio-Concrete",
-                "category": "concrete",
+                "category": "smart_concrete",
                 "grade": "BioHeal-50",
                 "density": 2350.0,
                 "tensile_strength": 55.0,
@@ -183,7 +184,7 @@ class SeedGenerator:
             },
             {
                 "name": "Vacuum Insulation Panel (VIP)",
-                "category": "insulation",
+                "category": "insulation_aerogel",
                 "grade": "VIP-Core-7",
                 "density": 200.0,
                 "tensile_strength": 5.0,
@@ -194,7 +195,7 @@ class SeedGenerator:
             },
             {
                 "name": "Carbon Fiber Reinforced Polymer (CFRP) Rebar",
-                "category": "reinforcement",
+                "category": "carbon_fiber",
                 "grade": "CFRP-12",
                 "density": 1600.0,
                 "tensile_strength": 2000.0,
@@ -205,7 +206,7 @@ class SeedGenerator:
             },
             {
                 "name": "Piezoelectric Energy Harvesting Tile",
-                "category": "energy",
+                "category": "smart_coating",
                 "grade": "PZT-Floor-V2",
                 "density": 3200.0,
                 "tensile_strength": 80.0,
@@ -216,7 +217,7 @@ class SeedGenerator:
             },
             {
                 "name": "Graphene-Enhanced Waterproofing Membrane",
-                "category": "waterproofing",
+                "category": "smart_coating",
                 "grade": "GrapheneSeal-Pro",
                 "density": 950.0,
                 "tensile_strength": 35.0,
@@ -227,7 +228,7 @@ class SeedGenerator:
             },
             {
                 "name": "Recycled Aluminium Composite Panel",
-                "category": "cladding",
+                "category": "composite_panel",
                 "grade": "ReAlu-FR-A2",
                 "density": 2700.0,
                 "tensile_strength": 310.0,
@@ -236,7 +237,35 @@ class SeedGenerator:
                 "is_smart_material": False,
                 "compliance_certs": "EN 13501, Euroclass A2, EPD",
             },
+            {
+                "name": "Structural Aluminium Alloy 6082-T6",
+                "category": "structural_aluminum",
+                "grade": "6082-T6",
+                "density": 2710.0,
+                "tensile_strength": 310.0,
+                "thermal_conductivity": 170.0,
+                "embodied_carbon_kg": 95.0,
+                "is_smart_material": False,
+                "compliance_certs": "EN 1999, CE Mark, EPD",
+            },
+            {
+                "name": "Basalt Fiber Composite Panel",
+                "category": "composite_panel",
+                "grade": "BasaltComp-HT",
+                "density": 1900.0,
+                "tensile_strength": 480.0,
+                "thermal_conductivity": 0.9,
+                "embodied_carbon_kg": 65.0,
+                "is_smart_material": False,
+                "compliance_certs": "EN 13706, CE Mark, EPD",
+            },
         ]
+        # Validate: reject LSF and weak materials
+        excluded_terms = {"lsf", "light steel frame", "light gauge"}
+        for mat in high_quality_materials:
+            name_lower = str(mat["name"]).lower()
+            for term in excluded_terms:
+                assert term not in name_lower, f"LSF/weak material in seed: {mat['name']}"
         items = []
         for i, mat in enumerate(high_quality_materials):
             supplier = suppliers[i % len(suppliers)]
@@ -756,14 +785,16 @@ class SeedGenerator:
     # Partners
     # ═══════════════════════════════════════════════════════════════════════════
 
-    def generate_partners(self, count: int = 6) -> list[dict[str, Any]]:
+    def generate_partners(self, count: int = 8) -> list[dict[str, Any]]:
         partners = [
             ("Modular Iberia SA", "Portugal", "Iberia", 20),
-            ("Nordic Prefab AS", "Norway", "Scandinavia", 15),
+            ("Casas Modulares Espana SL", "Spain", "Iberia", 18),
             ("EcoBuild Deutschland GmbH", "Germany", "Central Europe", 25),
+            ("Duurzaam Wonen BV", "Netherlands", "Benelux", 22),
             ("Green Homes France SAS", "France", "Western Europe", 18),
             ("Smart Living Italia SpA", "Italy", "Southern Europe", 12),
-            ("Duurzaam Wonen BV", "Netherlands", "Benelux", 22),
+            ("EcoModul Polska Sp z o.o.", "Poland", "Central Europe", 16),
+            ("NachhaltigBau GmbH", "Austria", "Central Europe", 14),
         ]
         items = []
         for i in range(min(count, len(partners))):
@@ -904,6 +935,130 @@ class SeedGenerator:
                         }
                     )
                     idx += 1
+        return items
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Partner Quotes
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    def generate_partner_quotes(self, partners: list[dict]) -> list[dict[str, Any]]:
+        """Generate realistic quotes from EU partners with lead times."""
+        items = []
+        idx = 0
+        for partner in partners:
+            num_quotes = self._rng.randint(2, 4)
+            for _ in range(num_quotes):
+                units = self._rng.randint(2, 15)
+                price_per = round(self._rng.uniform(3500, 8000), 2)
+                items.append(
+                    {
+                        "id": self._deterministic_uuid("partner_quote", idx),
+                        "partner_id": partner["id"],
+                        "units": units,
+                        "price_per_unit": price_per,
+                        "total_price": round(units * price_per, 2),
+                        "lead_time_days": partner["lead_time_days"] + self._rng.randint(-5, 10),
+                        "valid_until": self._random_date(2025, 2026).isoformat(),
+                        "status": self._rng.choice(["active", "active", "expired"]),
+                        **self._provenance(),
+                    }
+                )
+                idx += 1
+        return items
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Time Series Data (for forecasting)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    def generate_time_series_data(
+        self, work_orders: list[dict], count: int = 30
+    ) -> list[dict[str, Any]]:
+        """Generate time series data suitable for lead time forecasting."""
+        items = []
+        for i in range(count):
+            wo = work_orders[i % len(work_orders)] if work_orders else {}
+            base_duration = self._rng.uniform(5, 30)
+            # Add seasonal variation
+            seasonal = 3.0 * (i % 7) / 7.0
+            value = round(base_duration + seasonal, 2)
+            items.append(
+                {
+                    "id": self._deterministic_uuid("time_series", i),
+                    "metric": "lead_time_days",
+                    "period": f"2025-W{(i % 52) + 1:02d}",
+                    "value": value,
+                    "work_order_id": wo.get("id"),
+                    **self._provenance(),
+                }
+            )
+        return items
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # QA Data with Outliers (for anomaly detection)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    def generate_qa_with_outliers(self, work_orders: list[dict]) -> list[dict[str, Any]]:
+        """Generate QA records with some outliers for anomaly detection testing."""
+        inspectors = [
+            "Eng. Ana Ferreira",
+            "Eng. Joao Oliveira",
+            "Eng. Catarina Sousa",
+            "Eng. Miguel Rocha",
+        ]
+        items = []
+        idx = 0
+        for i, wo in enumerate(work_orders):
+            if wo["status"] in ("completed", "in_progress"):
+                # Normal record
+                is_outlier = idx % 7 == 6  # Every 7th record is an outlier
+                if is_outlier:
+                    # Outlier: many defects
+                    defects = [
+                        {
+                            "type": "structural",
+                            "description": "Major alignment deviation detected",
+                            "severity": "high",
+                        },
+                        {
+                            "type": "cosmetic",
+                            "description": "Surface damage on panel",
+                            "severity": "medium",
+                        },
+                        {
+                            "type": "functional",
+                            "description": "Smart system connectivity failure",
+                            "severity": "high",
+                        },
+                    ]
+                    result = "fail"
+                else:
+                    defects = (
+                        []
+                        if self._rng.random() > 0.2
+                        else [
+                            {
+                                "type": "cosmetic",
+                                "description": "Minor surface scratch on module panel",
+                                "severity": "low",
+                            }
+                        ]
+                    )
+                    result = self._rng.choice(["pass", "pass", "pass", "minor_defect"])
+
+                items.append(
+                    {
+                        "id": self._deterministic_uuid("qa_outlier", idx),
+                        "work_order_id": wo["id"],
+                        "inspector": inspectors[i % len(inspectors)],
+                        "result": result,
+                        "defects_json": json.dumps(defects),
+                        "notes": "Quality inspection per EcoContainer QA-001.",
+                        "inspected_at": self._random_datetime(2025, 2025).isoformat(),
+                        "defect_count": len(defects),
+                        **self._provenance(),
+                    }
+                )
+                idx += 1
         return items
 
     # ═══════════════════════════════════════════════════════════════════════════
@@ -1095,8 +1250,11 @@ class SeedGenerator:
         deployment_jobs = self.generate_deployment_jobs(deliveries)
         partners = self.generate_partners()
         capacity_plans = self.generate_capacity_plans(partners)
+        partner_quotes = self.generate_partner_quotes(partners)
         home_units = self.generate_home_units(house_configs)
         telemetry_events = self.generate_telemetry_events(home_units)
+        time_series_data = self.generate_time_series_data(work_orders)
+        qa_outlier_records = self.generate_qa_with_outliers(work_orders)
         insight_reports = self.generate_insight_reports()
         factory_scene = self.generate_factory_scene()
 
@@ -1118,8 +1276,11 @@ class SeedGenerator:
             "deployment_jobs": deployment_jobs,
             "partners": partners,
             "capacity_plans": capacity_plans,
+            "partner_quotes": partner_quotes,
             "home_units": home_units,
             "telemetry_events": telemetry_events,
+            "time_series_data": time_series_data,
+            "qa_outlier_records": qa_outlier_records,
             "insight_reports": insight_reports,
             "factory_scene": factory_scene,
         }
